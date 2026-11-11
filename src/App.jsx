@@ -1,121 +1,63 @@
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
+import Home from './pages/Home'
+import Catalogo from './pages/Catalogo'
+import DetalleProducto from './pages/DetalleProducto'
+import Nosotros from './pages/Nosotros'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [pagina, setPagina] = useState('home') // 'home' | 'catalogo' | 'detalle' | 'nosotros'
+  const [productoSeleccionadoId, setProductoSeleccionadoId] = useState(null)
+  const [carrito, setCarrito] = useState([])
+
+  const handleVerDetalle = (id) => {
+    setProductoSeleccionadoId(id)
+    setPagina('detalle')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleVolverAlCatalogo = () => {
+    setPagina('catalogo')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleAgregarAlCarrito = (item) => {
+    setCarrito((prev) => [...prev, item])
+    console.log('Producto agregado al carrito:', item)
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="flex min-h-screen flex-col bg-fondo text-texto font-texto">
+      <Navbar paginaActual={pagina} onNavegar={setPagina} />
 
-      <div className="ticks"></div>
+      {pagina === 'home' && (
+        <Home
+          onVerDetalle={handleVerDetalle}
+          onAgregar={handleAgregarAlCarrito}
+          onIrACatalogo={() => setPagina('catalogo')}
+        />
+      )}
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      {pagina === 'catalogo' && (
+        <Catalogo
+          onVerDetalle={handleVerDetalle}
+          onAgregar={handleAgregarAlCarrito}
+        />
+      )}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      {pagina === 'detalle' && (
+        <DetalleProducto
+          productoId={productoSeleccionadoId}
+          onVolver={handleVolverAlCatalogo}
+          onAgregar={handleAgregarAlCarrito}
+        />
+      )}
+
+      {pagina === 'nosotros' && <Nosotros />}
+
+      <Footer />
+    </div>
   )
 }
 

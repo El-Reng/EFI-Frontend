@@ -1,0 +1,113 @@
+export const productos = [
+  // --- Panes y bizcochos de manteca ---
+  {
+    id: 1,
+    nombre: 'Criollito de Manteca (x kg)',
+    categoria: 'Panes y bizcochos',
+    precio: 9000,
+    descripcion: 'Bizcochitos criollos hojaldrados, crocantes por fuera y con todo el sabor de la manteca. El acompañamiento perfecto para el mate.',
+    ingredientes: 'Harina, manteca, agua, sal, levadura.',
+    destacado: true,
+  },
+  {
+    id: 2,
+    nombre: 'Pan Blanco Chips',
+    categoria: 'Panes y bizcochos',
+    precio: 5000,
+    descripcion: 'Pan de miga tierna y esponjosa. Ideal para el desayuno o la merienda.',
+    ingredientes: 'Harina, leche, manteca, azúcar, huevo, levadura, sal, chips de chocolate.',
+    destacado: false,
+  },
+  {
+    id: 3,
+    nombre: 'Pan de Chicharrón',
+    categoria: 'Panes y bizcochos',
+    precio: 5500,
+    descripcion: 'El pan tradicional de siempre, con chicharrones en la masa que le dan mucho sabor. Rico solo, con manteca o con un buen queso.',
+    ingredientes: 'Harina, grasa, chicharrones, agua, sal, levadura.',
+    destacado: false,
+  },
+
+  // --- Pastelería ---
+  {
+    id: 4,
+    nombre: 'Selva Negra',
+    categoria: 'Pastelería',
+    precio: 30000,
+    descripcion: 'Una clásica que nunca falla: bizcochuelo de chocolate bien húmedo, intercalado con crema chantilly y cerezas al marrasquino, y cubierto con virutas de chocolate. Suave, liviana y con ese contraste entre el chocolate y la fruta que la hace tan especial.',
+    ingredientes: 'Harina, huevos, azúcar, cacao, manteca, crema de leche, cerezas al marrasquino, chocolate semiamargo, esencia de vainilla.',
+    destacado: true,
+  },
+  {
+    id: 5,
+    nombre: 'Torta Especial',
+    categoria: 'Pastelería',
+    precio: 27800,
+    descripcion: 'Capas de bizcochuelo de vainilla rellenas con dulce de leche y crema, con una terminación bien casera. Ideal para cumpleaños y reuniones donde no puede faltar algo rico.',
+    ingredientes: 'Harina, huevos, azúcar, manteca, dulce de leche, crema de leche, esencia de vainilla, nueces.',
+    destacado: false,
+  },
+  {
+    id: 6,
+    nombre: 'Tarta de Coco Grande',
+    categoria: 'Pastelería',
+    precio: 25800,
+    descripcion: 'Base crocante de masa fina y un relleno de coco rallado, dorado al horno. Perfecta para compartir con el café o el mate de la tarde.',
+    ingredientes: 'Harina, manteca, azúcar, huevos, coco rallado, leche, esencia de vainilla.',
+    destacado: false,
+  },
+  {
+    id: 7,
+    nombre: 'Alfajores Cordobeses x6',
+    categoria: 'Pastelería',
+    precio: 6000,
+    descripcion: 'Tapitas tiernas de maicena que se deshacen en la boca, rellenas de dulce de leche y rebozadas en coco rallado. Una caja para regalar o para darse el gusto.',
+    ingredientes: 'Maicena, harina, manteca, yemas, azúcar, dulce de leche, coco rallado.',
+    destacado: false,
+  },
+  {
+    id: 8,
+    nombre: 'Alfajor de Hojaldre',
+    categoria: 'Pastelería',
+    precio: 2500,
+    descripcion: 'Hojaldre fino y crocante con dulce de leche generoso, terminado con azúcar impalpable. Simple, rico y bien argentino.',
+    ingredientes: 'Harina, manteca, sal, dulce de leche, azúcar impalpable.',
+    destacado: false,
+  },
+
+  // --- Masas o facturas ---
+  {
+    id: 9,
+    nombre: 'Medialunas de Manteca',
+    categoria: 'Masas o facturas',
+    precio: 600,
+    descripcion: 'Suaves, esponjosas y con el brillo y el aroma de las medialunas de panadería de toda la vida. Para acompañar el café con leche.',
+    ingredientes: 'Harina, manteca, huevos, azúcar, leche, levadura, esencia de vainilla, sal.',
+    destacado: true,
+  },
+  {
+    id: 10,
+    nombre: 'Vigilante Largo',
+    categoria: 'Masas o facturas',
+    precio: 550,
+    descripcion: 'Pan alargado de corteza dorada y miga liviana. Ideal para untar con manteca, dulce o armar un buen sándwich.',
+    ingredientes: 'Harina, agua, grasa, azúcar, sal, levadura.',
+    destacado: false,
+  },
+  {
+    id: 11,
+    nombre: 'Vigilante con Crema',
+    categoria: 'Masas o facturas',
+    precio: 650,
+    descripcion: 'El vigilante de siempre, relleno de crema pastelera. Un clásico para la merienda.',
+    ingredientes: 'Harina, agua, grasa, azúcar, sal, levadura, crema pastelera.',
+    destacado: false,
+  },
+]
+
+export const categorias = [
+  'Todos',
+  'Panes y bizcochos',
+  'Pastelería',
+  'Masas o facturas',
+]
