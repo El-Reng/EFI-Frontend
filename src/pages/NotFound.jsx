@@ -1,32 +1,29 @@
-function NotFound({ onVolverAlInicio }) {
+import { Link } from "react-router-dom";
+
+function NotFound() {
   return (
     <main className="mx-auto flex min-h-[60vh] max-w-lg flex-1 flex-col items-center justify-center px-4 py-12 text-center">
-      {/* dibujito o icono simpatico */}
       <span className="text-7xl">🥐</span>
 
-      {/* titulo del error */}
-      <h1 className="mt-4 font-titulo text-5xl font-bold text-texto">
-        404
-      </h1>
+      <h1 className="mt-4 font-titulo text-5xl font-bold text-texto">404</h1>
 
       <h2 className="mt-2 font-titulo text-2xl font-bold">
-        pagina no encontrada
+        Página no encontrada
       </h2>
 
-      <p className="mt-2 text-sm opacity-80 max-w-sm">
-        parece que esta medialuna se nos quemo en el horno o la direccion que buscas no existe.
+      <p className="mt-2 max-w-sm text-sm opacity-80">
+        Parece que esta medialuna se nos quemó en el horno o la dirección que
+        buscás no existe.
       </p>
 
-      {/* boton para regresar a la tienda */}
-      <button
-        type="button"
-        onClick={onVolverAlInicio}
-        className="mt-6 rounded-lg border-2 border-borde bg-acento px-6 py-2.5 font-bold text-texto-acento shadow-sm hover:brightness-95 transition-all"
+      <Link
+        to="/"
+        className="mt-6 rounded-lg border-2 border-borde bg-acento px-6 py-2.5 font-bold text-texto-acento shadow-sm transition-all hover:brightness-95"
       >
-        volver al inicio
-      </button>
+        Volver al inicio
+      </Link>
     </main>
-  )
+  );
 }
 
-export default NotFound
+export default NotFound;
