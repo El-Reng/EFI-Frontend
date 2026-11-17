@@ -21,10 +21,10 @@ function Nosotros() {
     <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:py-12">
       {/* Portada / Hero de Nosotros */}
       <section className="text-center">
-        <span className="text-xs font-bold uppercase tracking-widest text-acento">
+        <span className="text-xs font-bold uppercase tracking-widest text-amber-600">
           Desde 1984
         </span>
-        <h1 className="mt-2 font-titulo text-3xl font-bold sm:text-5xl">
+        <h1 className="mt-2 font-serif text-3xl font-bold sm:text-5xl">
           Nuestra Historia y Pasión
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base opacity-90 sm:text-lg">
@@ -34,9 +34,9 @@ function Nosotros() {
       </section>
 
       {/* Historia con imagen o bloque destacado */}
-      <section className="mt-12 grid gap-8 rounded-2xl border-2 border-borde bg-superficie p-6 shadow-sm md:grid-cols-2 md:p-10">
+      <section className="mt-12 grid gap-8 rounded-2xl border-2 border-amber-200 bg-white p-6 shadow-sm md:grid-cols-2 md:p-10">
         <div className="flex flex-col justify-center">
-          <h2 className="font-titulo text-2xl font-bold sm:text-3xl">
+          <h2 className="font-serif text-2xl font-bold sm:text-3xl">
             El calor del horno a leña en el barrio
           </h2>
           <p className="mt-4 text-sm leading-relaxed opacity-90 sm:text-base">
@@ -47,10 +47,10 @@ function Nosotros() {
           </p>
         </div>
 
-        <div className="flex aspect-video sm:aspect-auto items-center justify-center overflow-hidden rounded-xl border-2 border-borde bg-marca/20">
-          <div className="p-8 text-center text-texto-acento">
+        <div className="flex aspect-video sm:aspect-auto items-center justify-center overflow-hidden rounded-xl border-2 border-amber-200 bg-amber-100">
+          <div className="p-8 text-center text-texto-amber-950">
             <span className="text-6xl">🥖</span>
-            <p className="mt-3 font-titulo text-xl font-bold">Horneado con dedicación</p>
+            <p className="mt-3 font-serif text-xl font-bold">Horneado con dedicación</p>
             <p className="text-xs opacity-80">Masa madre & fermentación natural</p>
           </div>
         </div>
@@ -58,17 +58,17 @@ function Nosotros() {
 
       {/* Valores */}
       <section className="mt-14">
-        <h2 className="text-center font-titulo text-2xl font-bold sm:text-3xl">
+        <h2 className="text-center font-serif text-2xl font-bold sm:text-3xl">
           Nuestros Pilares
         </h2>
         <div className="mt-8 grid gap-6 sm:grid-cols-3">
           {valores.map((v, i) => (
             <div
               key={i}
-              className="flex flex-col items-center rounded-xl border-2 border-borde bg-superficie p-6 text-center shadow-sm"
+              className="flex flex-col items-center rounded-xl border-2 border-amber-200 bg-white p-6 text-center shadow-sm"
             >
               <span className="text-4xl">{v.icono}</span>
-              <h3 className="mt-3 font-titulo text-lg font-bold">{v.titulo}</h3>
+              <h3 className="mt-3 font-serif text-lg font-bold">{v.titulo}</h3>
               <p className="mt-2 text-sm opacity-85 leading-relaxed">{v.descripcion}</p>
             </div>
           ))}
@@ -76,10 +76,10 @@ function Nosotros() {
       </section>
 
       {/* Horarios y Ubicación */}
-      <section className="mt-14 rounded-2xl border-2 border-borde bg-marca/15 p-6 sm:p-8">
+      <section className="mt-14 rounded-2xl border-2 border-amber-300 bg-amber-100/60 p-6 sm:p-8">
         <div className="grid gap-6 sm:grid-cols-2">
           <div>
-            <h3 className="font-titulo text-xl font-bold text-texto-acento">
+            <h3 className="font-serif text-xl font-bold text-amber-950">
               📍 Dónde encontrarnos
             </h3>
             <p className="mt-2 text-sm font-semibold">Av. Principal 1234, Barrio Norte</p>
@@ -90,7 +90,7 @@ function Nosotros() {
           </div>
 
           <div>
-            <h3 className="font-titulo text-xl font-bold text-texto-acento">
+            <h3 className="font-serif text-xl font-bold text-amber-950">
               🕒 Días y Horarios de Atención
             </h3>
             <ul className="mt-2 space-y-1 text-sm">

@@ -7,11 +7,11 @@ function Navbar() {
     }`;
 
   return (
-    <header className="sticky top-0 z-20 bg-marca text-texto-acento shadow-sm">
+    <header className="sticky top-0 z-20 bg-amber-300 text-amber-950 shadow-sm">
       <nav className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4">
         <Link
           to="/"
-          className="font-titulo text-2xl font-bold tracking-tight hover:opacity-90"
+          className="font-serif text-2xl font-bold tracking-tight hover:opacity-90"
         >
           🥖 Panadería
         </Link>

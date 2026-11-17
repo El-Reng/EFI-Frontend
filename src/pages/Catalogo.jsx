@@ -109,7 +109,7 @@ function Catalogo() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-12">
       <div className="mb-8 text-center">
-        <h1 className="font-titulo text-3xl font-bold">Gestión de productos</h1>
+        <h1 className="font-serif text-3xl font-bold">Gestión de productos</h1>
         <p className="mt-2 opacity-80">
           Consultá los productos registrados en la panadería.
         </p>
@@ -120,15 +120,15 @@ function Catalogo() {
         value={busqueda}
         onChange={cambiarBusqueda}
         placeholder="Buscar productos..."
-        className="mb-6 w-full rounded-lg border-2 border-borde bg-superficie px-4 py-3"
+        className="mb-6 w-full rounded-lg border-2 border-amber-300 bg-white px-4 py-3"
       />
 
       <div className="mb-8 flex flex-wrap gap-2">
         <button
           type="button"
           onClick={() => cambiarCategoria("Todos")}
-          className={`rounded-lg border-2 border-borde px-4 py-2 font-semibold ${
-            categoriaActual === "Todos" ? "bg-acento text-texto-acento" : ""
+          className={`rounded-lg border-2 border-amber-300 px-4 py-2 font-semibold ${
+            categoriaActual === "Todos" ? "bg-amber-500 text-white" : "bg-white"
           }`}
         >
           Todos
@@ -139,10 +139,10 @@ function Catalogo() {
             key={categoria.id}
             type="button"
             onClick={() => cambiarCategoria(String(categoria.id))}
-            className={`rounded-lg border-2 border-borde px-4 py-2 font-semibold ${
+            className={`rounded-lg border-2 border-amber-300 px-4 py-2 font-semibold ${
               categoriaActual === String(categoria.id)
-                ? "bg-acento text-texto-acento"
-                : ""
+                ? "bg-amber-500 text-white"
+                : "bg-white"
             }`}
           >
             {categoria.name}
@@ -176,7 +176,7 @@ function Catalogo() {
             type="button"
             onClick={() => setPaginaActual(paginaActual - 1)}
             disabled={paginaActual === 1}
-            className="rounded-lg border-2 border-borde px-4 py-2 disabled:opacity-40"
+            className="rounded-lg border-2 border-amber-300 bg-white px-4 py-2 font-semibold disabled:opacity-40"
           >
             Anterior
           </button>
@@ -189,7 +189,7 @@ function Catalogo() {
             type="button"
             onClick={() => setPaginaActual(paginaActual + 1)}
             disabled={paginaActual === totalPaginas}
-            className="rounded-lg border-2 border-borde px-4 py-2 disabled:opacity-40"
+            className="rounded-lg border-2 border-amber-300 bg-white px-4 py-2 font-semibold disabled:opacity-40"
           >
             Siguiente
           </button>

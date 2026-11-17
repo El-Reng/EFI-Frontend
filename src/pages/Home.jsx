@@ -62,7 +62,7 @@ function Home() {
       <section className="mt-12">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="font-titulo text-3xl font-bold">
+            <h2 className="font-serif text-3xl font-bold">
               Nuestros productos
             </h2>
 
@@ -73,7 +73,7 @@ function Home() {
 
           <Link
             to="/productos"
-            className="text-sm font-bold text-acento hover:underline"
+            className="text-sm font-bold text-amber-600 hover:underline"
           >
             Ver catálogo completo →
           </Link>
