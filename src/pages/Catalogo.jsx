@@ -1,158 +1,202 @@
-import { useState } from 'react'
-import ProductCard from '../components/ProductCard'
-import { productos, categorias } from '../data/productos'
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import ProductCard from "../components/ProductCard";
 
-function Catalogo({ onVerDetalle, onAgregar }) {
-  const [categoriaActual, setCategoriaActual] = useState('Todos')
-  const [busqueda, setBusqueda] = useState('')
-  const [paginaActual, setPaginaActual] = useState(1)
-  const productosPorPagina = 6
+const API_URL = import.meta.env.VITE_API_URL;
 
-  // Filtrado por categoría y búsqueda
-  const productosFiltrados = productos.filter((prod) => {
+function Catalogo() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [productos, setProductos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [categoriaActual, setCategoriaActual] = useState("Todos");
+  const [busqueda, setBusqueda] = useState("");
+  const [paginaActual, setPaginaActual] = useState(1);
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState("");
+
+  const productosPorPagina = 6;
+
+  useEffect(() => {
+    async function obtenerDatos() {
+      try {
+        setCargando(true);
+        setError("");
+
+        const [respuestaProductos, respuestaCategorias] = await Promise.all([
+          fetch(`${API_URL}/products/?size=100`),
+          fetch(`${API_URL}/categories/?size=100`),
+        ]);
+
+        if (!respuestaProductos.ok || !respuestaCategorias.ok) {
+          throw new Error("No se pudieron obtener los datos del servidor.");
+        }
+
+        const datosProductos = await respuestaProductos.json();
+        const datosCategorias = await respuestaCategorias.json();
+
+        setProductos(datosProductos.items || datosProductos);
+        setCategorias(datosCategorias.items || datosCategorias);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setCargando(false);
+      }
+    }
+
+    obtenerDatos();
+  }, []);
+
+  const productosFiltrados = productos.filter((producto) => {
     const coincideCategoria =
-      categoriaActual === 'Todos' || prod.categoria === categoriaActual
-    const coincideBusqueda =
-      prod.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-      prod.descripcion.toLowerCase().includes(busqueda.toLowerCase())
-    return coincideCategoria && coincideBusqueda
-  })
+      categoriaActual === "Todos" ||
+      producto.category_id === Number(categoriaActual);
 
-  // Paginación
-  const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina) || 1
-  const indiceInicio = (paginaActual - 1) * productosPorPagina
+    const coincideBusqueda =
+      producto.name.toLowerCase().includes(busqueda.toLowerCase()) ||
+      (producto.description || "")
+        .toLowerCase()
+        .includes(busqueda.toLowerCase());
+
+    return coincideCategoria && coincideBusqueda;
+  });
+
+  const totalPaginas =
+    Math.ceil(productosFiltrados.length / productosPorPagina) || 1;
+
+  const indiceInicio = (paginaActual - 1) * productosPorPagina;
+
   const productosPaginados = productosFiltrados.slice(
     indiceInicio,
-    indiceInicio + productosPorPagina
-  )
+    indiceInicio + productosPorPagina,
+  );
 
-  const cambiarCategoria = (cat) => {
-    setCategoriaActual(cat)
-    setPaginaActual(1)
+  function cambiarCategoria(id) {
+    setCategoriaActual(id);
+    setPaginaActual(1);
   }
 
-  const cambiarBusqueda = (e) => {
-    setBusqueda(e.target.value)
-    setPaginaActual(1)
+  function cambiarBusqueda(e) {
+    setBusqueda(e.target.value);
+    setPaginaActual(1);
+  }
+
+  function verDetalle(id) {
+    const rutaDetalle = location.pathname.startsWith("/admin")
+      ? `/admin/productos/${id}`
+      : `/productos/${id}`;
+
+    navigate(rutaDetalle);
+  }
+
+  if (cargando) {
+    return (
+      <section className="mx-auto max-w-6xl px-4 py-12 text-center">
+        <p>Cargando productos...</p>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="mx-auto max-w-6xl px-4 py-12 text-center">
+        <p className="font-semibold text-red-600">{error}</p>
+      </section>
+    );
   }
 
   return (
-    <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
-      {/* Encabezado */}
-      <header className="mb-8">
-        <h1 className="font-titulo text-3xl font-bold sm:text-4xl">
-          Nuestro Catálogo
-        </h1>
-        <p className="mt-2 text-base opacity-90">
-          Descubrí todas nuestras delicias recién salidas del horno.
+    <section className="mx-auto max-w-6xl px-4 py-12">
+      <div className="mb-8 text-center">
+        <h1 className="font-titulo text-3xl font-bold">Gestión de productos</h1>
+        <p className="mt-2 opacity-80">
+          Consultá los productos registrados en la panadería.
         </p>
-      </header>
+      </div>
 
-      {/* Barra de Filtros y Búsqueda */}
-      <section className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        {/* Categorías (Pills) */}
-        <div className="flex flex-wrap gap-2">
-          {categorias.map((cat) => {
-            const estaActiva = cat === categoriaActual
-            return (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => cambiarCategoria(cat)}
-                className={`rounded-full px-4 py-1.5 text-sm font-semibold transition-all border-2 ${
-                  estaActiva
-                    ? 'border-borde bg-acento text-texto-acento shadow-sm'
-                    : 'border-borde/40 bg-superficie hover:border-borde'
-                }`}
-              >
-                {cat}
-              </button>
-            )
-          })}
-        </div>
+      <input
+        type="text"
+        value={busqueda}
+        onChange={cambiarBusqueda}
+        placeholder="Buscar productos..."
+        className="mb-6 w-full rounded-lg border-2 border-borde bg-superficie px-4 py-3"
+      />
 
-        {/* Buscador */}
-        <div className="sm:w-64">
-          <input
-            type="text"
-            value={busqueda}
-            onChange={cambiarBusqueda}
-            placeholder="Buscar producto..."
-            className="w-full rounded-lg border-2 border-borde bg-superficie px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-acento"
-          />
-        </div>
-      </section>
+      <div className="mb-8 flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={() => cambiarCategoria("Todos")}
+          className={`rounded-lg border-2 border-borde px-4 py-2 font-semibold ${
+            categoriaActual === "Todos" ? "bg-acento text-texto-acento" : ""
+          }`}
+        >
+          Todos
+        </button>
 
-      {/* Grid de Productos */}
-      {productosFiltrados.length === 0 ? (
-        <div className="rounded-xl border-2 border-dashed border-borde p-12 text-center bg-superficie/50">
-          <p className="text-lg font-semibold">No encontramos productos que coincidan.</p>
-          <p className="mt-1 text-sm opacity-80">Probá buscando con otro nombre o cambiando de categoría.</p>
-        </div>
-      ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {productosPaginados.map((p) => (
+        {categorias.map((categoria) => (
+          <button
+            key={categoria.id}
+            type="button"
+            onClick={() => cambiarCategoria(String(categoria.id))}
+            className={`rounded-lg border-2 border-borde px-4 py-2 font-semibold ${
+              categoriaActual === String(categoria.id)
+                ? "bg-acento text-texto-acento"
+                : ""
+            }`}
+          >
+            {categoria.name}
+          </button>
+        ))}
+      </div>
+
+      {productosPaginados.length > 0 ? (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {productosPaginados.map((producto) => (
             <ProductCard
-              key={p.id}
-              {...p}
-              onVerDetalle={onVerDetalle}
-              onAgregar={() => onAgregar?.(p)}
+              key={producto.id}
+              id={producto.id}
+              name={producto.name}
+              description={producto.description}
+              price={producto.price}
+              category={producto.category?.name}
+              onVerDetalle={verDetalle}
             />
           ))}
         </div>
+      ) : (
+        <p className="py-12 text-center opacity-75">
+          No se encontraron productos.
+        </p>
       )}
 
-      {/* Controles de Paginación */}
       {totalPaginas > 1 && (
-        <nav
-          aria-label="Paginación del catálogo"
-          className="mt-10 flex flex-wrap items-center justify-center gap-2"
-        >
-          {/* Botón Anterior */}
+        <div className="mt-8 flex items-center justify-center gap-4">
           <button
             type="button"
-            onClick={() => setPaginaActual((prev) => Math.max(prev - 1, 1))}
+            onClick={() => setPaginaActual(paginaActual - 1)}
             disabled={paginaActual === 1}
-            className="rounded-lg border-2 border-borde bg-superficie px-4 py-2 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-40 hover:not-disabled:bg-marca/20"
+            className="rounded-lg border-2 border-borde px-4 py-2 disabled:opacity-40"
           >
-            ← Anterior
+            Anterior
           </button>
 
-          {/* Números de página */}
-          <div className="flex gap-1">
-            {Array.from({ length: totalPaginas }, (_, i) => i + 1).map((num) => {
-              const esPaginaActual = num === paginaActual
-              return (
-                <button
-                  key={num}
-                  type="button"
-                  onClick={() => setPaginaActual(num)}
-                  aria-current={esPaginaActual ? 'page' : undefined}
-                  className={`h-9 w-9 rounded-lg border-2 text-sm font-bold transition-all ${
-                    esPaginaActual
-                      ? 'border-borde bg-acento text-texto-acento'
-                      : 'border-borde/40 bg-superficie hover:border-borde'
-                  }`}
-                >
-                  {num}
-                </button>
-              )
-            })}
-          </div>
+          <span>
+            Página {paginaActual} de {totalPaginas}
+          </span>
 
-          {/* Botón Siguiente */}
           <button
             type="button"
-            onClick={() => setPaginaActual((prev) => Math.min(prev + 1, totalPaginas))}
+            onClick={() => setPaginaActual(paginaActual + 1)}
             disabled={paginaActual === totalPaginas}
-            className="rounded-lg border-2 border-borde bg-superficie px-4 py-2 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-40 hover:not-disabled:bg-marca/20"
+            className="rounded-lg border-2 border-borde px-4 py-2 disabled:opacity-40"
           >
-            Siguiente →
+            Siguiente
           </button>
-        </nav>
+        </div>
       )}
-    </main>
-  )
+    </section>
+  );
 }
 
-export default Catalogo
+export default Catalogo;
