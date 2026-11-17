@@ -34,7 +34,7 @@ function Home() {
   useEffect(() => {
     async function obtenerProductos() {
       try {
-        const respuesta = await fetch(`${API_URL}/categories/?size=100`);
+        const respuesta = await fetch(`${API_URL}/products/?size=100`);
 
         if (!respuesta.ok) {
           throw new Error("No se pudieron obtener los productos.");
@@ -95,6 +95,7 @@ function Home() {
                 description={producto.description}
                 price={producto.price}
                 category={producto.category?.name}
+                imageUrl={producto.image_url}
                 onVerDetalle={(id) => navigate(`/productos/${id}`)}
               />
             ))}

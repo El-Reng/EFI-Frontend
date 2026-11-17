@@ -1,15 +1,32 @@
-function ProductCard({ id, name, description, price, category, onVerDetalle }) {
+function ProductCard({
+  id,
+  name,
+  description,
+  price,
+  category,
+  imageUrl,
+  onVerDetalle,
+}) {
   return (
     <article className="flex flex-col overflow-hidden rounded-xl border-2 border-amber-200 bg-white shadow-sm transition-all hover:-translate-y-0.5">
       <button
         type="button"
         onClick={() => onVerDetalle(id)}
-        className="relative flex aspect-square w-full items-center justify-center bg-amber-100 text-base font-semibold text-amber-950 sm:text-lg"
+        className="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-amber-100 text-base font-semibold text-amber-950 sm:text-lg"
         aria-label={`Ver ${name}`}
       >
-        🥖 Sin imagen
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={name}
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <span>🥖 Sin imagen</span>
+        )}
+
         {category && (
-          <span className="absolute left-2 top-2 rounded-md border border-amber-300 bg-superficie/90 px-2 py-0.5 text-xs font-bold text-amber-900">
+          <span className="absolute left-2 top-2 rounded-md border border-amber-300 bg-white/90 px-2 py-0.5 text-xs font-bold text-amber-900">
             {category}
           </span>
         )}
