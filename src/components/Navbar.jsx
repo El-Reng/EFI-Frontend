@@ -1,4 +1,4 @@
-function Navbar({ paginaActual, onNavegar }) {
+function Navbar({ paginaActual, onNavegar, esAdmin, onCerrarSesion }) {
   const handleNav = (pagina, e) => {
     if (onNavegar) {
       e.preventDefault()
@@ -50,6 +50,43 @@ function Navbar({ paginaActual, onNavegar }) {
               Nosotros
             </a>
           </li>
+
+                    {/* pestana de admin que solo se ve si entro con la clave */}
+          {esAdmin && (
+            <li>
+              <a
+                href="/admin"
+                onClick={(e) => handleNav('admin', e)}
+                className={`rounded bg-acento px-2 py-1 font-bold ${
+                  paginaActual === 'admin' ? 'ring-2 ring-borde' : ''
+                }`}
+              >
+                🛠️ Admin
+              </a>
+            </li>
+          )}
+
+          {/* boton para ingresar o salir */}
+          <li>
+            {esAdmin ? (
+              <button
+                type="button"
+                onClick={onCerrarSesion}
+                className="text-xs underline opacity-80 hover:opacity-100"
+              >
+                Cerrar sesión
+              </button>
+            ) : (
+              <a
+                href="/login"
+                onClick={(e) => handleNav('login', e)}
+                className="hover:underline opacity-90"
+              >
+                Ingresar
+              </a>
+            )}
+          </li>
+
         </ul>
       </nav>
     </header>
