@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -7,15 +7,16 @@ const API_URL = import.meta.env.VITE_API_URL;
 function Catalogo() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
-  const [categoriaActual, setCategoriaActual] = useState("Todos");
   const [busqueda, setBusqueda] = useState("");
   const [paginaActual, setPaginaActual] = useState(1);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState("");
 
+  const categoriaActual = searchParams.get("categoria") || "Todos";
   const productosPorPagina = 6;
 
   useEffect(() => {
@@ -51,7 +52,7 @@ function Catalogo() {
   const productosFiltrados = productos.filter((producto) => {
     const coincideCategoria =
       categoriaActual === "Todos" ||
-      producto.category_id === Number(categoriaActual);
+      producto.category?.id === Number(categoriaActual);
 
     const coincideBusqueda =
       producto.name.toLowerCase().includes(busqueda.toLowerCase()) ||
@@ -73,7 +74,12 @@ function Catalogo() {
   );
 
   function cambiarCategoria(id) {
-    setCategoriaActual(id);
+    if (id === "Todos") {
+      setSearchParams({});
+    } else {
+      setSearchParams({ categoria: id });
+    }
+
     setPaginaActual(1);
   }
 
@@ -160,6 +166,7 @@ function Catalogo() {
               description={producto.description}
               price={producto.price}
               category={producto.category?.name}
+              imageUrl={producto.image_url}
               onVerDetalle={verDetalle}
             />
           ))}

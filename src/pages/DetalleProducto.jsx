@@ -80,8 +80,16 @@ function DetalleProducto() {
       </button>
 
       <article className="grid gap-8 rounded-2xl border-2 border-amber-200 bg-white p-6 shadow-sm md:grid-cols-2 lg:p-10">
-        <div className="flex aspect-square items-center justify-center rounded-xl border-2 border-amber-200 bg-amber-100">
-          <span className="text-7xl">🥐</span>
+        <div className="flex aspect-square items-center justify-center overflow-hidden rounded-xl border-2 border-amber-200 bg-amber-100">
+          {producto.image_url ? (
+            <img
+              src={producto.image_url}
+              alt={producto.name}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <span className="text-7xl">🥐</span>
+          )}
         </div>
 
         <div>
