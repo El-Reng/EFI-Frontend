@@ -19,8 +19,8 @@ function Login({ onLoginExitoso, onVolver }) {
 
   return (
     <main className="mx-auto flex min-h-[60vh] max-w-sm flex-col justify-center px-4 py-12">
-      <div className="rounded-xl border-2 border-borde bg-superficie p-6 shadow-md">
-        <h1 className="font-titulo text-2xl font-bold text-center">
+      <div className="rounded-xl border-2 border-amber-200 bg-white p-6 shadow-md">
+        <h1 className="font-serif text-2xl font-bold text-center">
           iniciar sesion
         </h1>
         <p className="mt-1 text-xs text-center opacity-80">
@@ -35,7 +35,7 @@ function Login({ onLoginExitoso, onVolver }) {
               value={usuario}
               onChange={(e) => setUsuario(e.target.value)}
               placeholder="admin"
-              className="mt-1 w-full rounded-lg border-2 border-borde bg-fondo p-2 text-sm"
+              className="mt-1 w-full rounded-lg border-2 border-amber-300 bg-ambar-50 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
               required
             />
           </div>
@@ -47,7 +47,7 @@ function Login({ onLoginExitoso, onVolver }) {
               value={clave}
               onChange={(e) => setClave(e.target.value)}
               placeholder="1234"
-              className="mt-1 w-full rounded-lg border-2 border-borde bg-fondo p-2 text-sm"
+              className="mt-1 w-full rounded-lg border-2 border-amber-300 bg-ambar-50 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
               required
             />
           </div>
@@ -61,7 +61,7 @@ function Login({ onLoginExitoso, onVolver }) {
 
           <button
             type="submit"
-            className="rounded-lg border-2 border-borde bg-acento py-2 font-bold text-texto-acento"
+            className="rounded-lg border-2 border-amber-600 bg-amber-600 py-2 font-bold text-white transition-all hover:bg-amber-600"
           >
             ingresar
           </button>

@@ -51,7 +51,7 @@ function Categorias() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-12">
       <div className="mb-8 text-center">
-        <h1 className="font-titulo text-3xl font-bold">Nuestras categorías</h1>
+        <h1 className="font-serif text-3xl font-bold">Nuestras categorías</h1>
         <p className="mt-2 opacity-80">
           Conocé las distintas variedades de nuestra panadería.
         </p>
@@ -62,9 +62,9 @@ function Categorias() {
           {categorias.map((categoria) => (
             <article
               key={categoria.id}
-              className="rounded-xl border-2 border-borde bg-superficie p-6 shadow-sm"
+              className="rounded-xl border-2 border-amber-200 bg-white p-6 shadow-sm"
             >
-              <h2 className="font-titulo text-xl font-bold">
+              <h2 className="font-serif text-xl font-bold">
                 {categoria.name}
               </h2>
             </article>
