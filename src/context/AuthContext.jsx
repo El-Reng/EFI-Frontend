@@ -1,34 +1,34 @@
-import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 
-// Creamos el contexto de autenticación
 const AuthContext = createContext(null);
 
-// Hook personalizado 
 export const useAuth = () => {
   const context = useContext(AuthContext);
+
   if (!context) {
     throw new Error("useAuth debe ser usado dentro de un AuthProvider");
   }
+
   return context;
 };
 
 export const AuthProvider = ({ children }) => {
-  // Inicializamos el estado de la sesión en localStorage 
   const [session, setSession] = useState(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const stored = localStorage.getItem("session");
-        return stored ? JSON.parse(stored) : null;
-      } catch (error) {
-        console.error("Error al leer la sesión de localStorage:", error);
-        localStorage.removeItem("session");
-        return null;
-      }
+    try {
+      const stored = localStorage.getItem("session");
+      return stored ? JSON.parse(stored) : null;
+    } catch (error) {
+      localStorage.removeItem("session");
+      return null;
     }
-    return null;
   });
 
-  // Sincronización Automática con localStorage
   useEffect(() => {
     if (session) {
       localStorage.setItem("session", JSON.stringify(session));
@@ -37,56 +37,84 @@ export const AuthProvider = ({ children }) => {
     }
   }, [session]);
 
-  // Función para iniciar sesión conectando backend
   const login = async (username, password) => {
     try {
-      // Usamos la variable Vite de forma dinámica
       const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
-      const response = await fetch(`${apiUrl}/api/v1/login`, {
+      const respuesta = await fetch(`${apiUrl}/auth/login`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify({ username, password }),
+        body: new URLSearchParams({
+          username,
+          password,
+        }),
       });
 
-      if (!response.ok) {
-        throw new Error("Credenciales inválidas o error en el servidor");
+      if (!respuesta.ok) {
+        throw new Error("Usuario o contraseña incorrectos");
       }
 
-      const data = await response.json();
-      
-      setSession({
-        token: data.access_token, 
-        user: data.user,          
+      const datos = await respuesta.json();
+      const token = datos.access_token;
+
+      const respuestaUsuario = await fetch(`${apiUrl}/users/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
-      return { success: true, isOwner: data.user?.is_owner || false };
+      if (!respuestaUsuario.ok) {
+        throw new Error("No se pudieron obtener los datos del usuario");
+      }
+
+      const usuario = await respuestaUsuario.json();
+
+      setSession({
+        token,
+        user: usuario,
+      });
+
+      return {
+        success: true,
+        isOwner: usuario.is_owner,
+      };
     } catch (error) {
-      console.error("Error en el login:", error);
-      return { success: false, error: error.message };
+      console.error("Error al iniciar sesión:", error);
+
+      return {
+        success: false,
+        error: error.message,
+      };
     }
   };
 
-  // Cierre de sesión y exposición de valores
+  const actualizarUsuario = useCallback((usuario) => {
+    setSession((sesionActual) => {
+      if (!sesionActual) return null;
+
+      return {
+        ...sesionActual,
+        user: usuario,
+      };
+    });
+  }, []);
+
   const logout = useCallback(() => {
     setSession(null);
   }, []);
 
   const value = {
-    usuario: session?.user || session || null,
+    usuario: session?.user || null,
     token: session?.token || null,
     isOwner: session?.user?.is_owner || false,
     login,
     logout,
+    actualizarUsuario,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContext;

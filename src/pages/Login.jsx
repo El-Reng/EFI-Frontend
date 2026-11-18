@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-function Login({ onLoginExitoso, onVolver }) {
+function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
+
   const [usuario, setUsuario] = useState("");
   const [clave, setClave] = useState("");
   const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
-
-  const { login } = useAuth();
 
   async function manejarEnvio(e) {
     e.preventDefault();
@@ -17,14 +18,16 @@ function Login({ onLoginExitoso, onVolver }) {
     setCargando(true);
 
     const resultado = await login(usuario, clave);
+
     setCargando(false);
 
     if (resultado.success) {
-      if (onLoginExitoso) {
-        onLoginExitoso(resultado.isOwner);
-      } else {
-        navigate("/admin");
-      }
+      const destino = location.state?.from;
+      const ruta = destino
+        ? `${destino.pathname}${destino.search || ""}${destino.hash || ""}`
+        : "/";
+
+      navigate(ruta, { replace: true });
     } else {
       setError(
         resultado.error || "Credenciales incorrectas o error en el servidor",
@@ -32,21 +35,13 @@ function Login({ onLoginExitoso, onVolver }) {
     }
   }
 
-  function volver() {
-    if (onVolver) {
-      onVolver();
-    } else {
-      navigate("/");
-    }
-  }
-
   return (
     <div className="mx-auto flex min-h-[60vh] max-w-sm flex-col justify-center px-4 py-12">
       <div className="rounded-2xl border border-amber-200/90 bg-white p-8 shadow-xl">
-        <h1 className="font-serif text-2xl font-bold text-center text-pan-marron">
+        <h1 className="text-center font-serif text-2xl font-bold text-pan-marron">
           Iniciar sesión
         </h1>
-        <p className="mt-1 text-xs text-center text-pan-marron/75">
+        <p className="mt-1 text-center text-xs text-pan-marron/75">
           Solo personal de la panadería
         </p>
 
@@ -58,7 +53,8 @@ function Login({ onLoginExitoso, onVolver }) {
               value={usuario}
               onChange={(e) => setUsuario(e.target.value)}
               placeholder="admin"
-              className="mt-1 w-full rounded-xl border border-amber-200 bg-amber-50/40 p-2.5 text-sm text-pan-marron focus:border-pan-naranja focus:outline-none focus:ring-2 focus:ring-pan-naranja/20 transition"
+              autoComplete="username"
+              className="mt-1 w-full rounded-xl border border-amber-200 bg-amber-50/40 p-2.5 text-sm text-pan-marron transition focus:border-pan-naranja focus:outline-none focus:ring-2 focus:ring-pan-naranja/20"
               required
             />
           </div>
@@ -69,14 +65,15 @@ function Login({ onLoginExitoso, onVolver }) {
               type="password"
               value={clave}
               onChange={(e) => setClave(e.target.value)}
-              placeholder="1234"
-              className="mt-1 w-full rounded-xl border border-amber-200 bg-amber-50/40 p-2.5 text-sm text-pan-marron focus:border-pan-naranja focus:outline-none focus:ring-2 focus:ring-pan-naranja/20 transition"
+              placeholder="Contraseña"
+              autoComplete="current-password"
+              className="mt-1 w-full rounded-xl border border-amber-200 bg-amber-50/40 p-2.5 text-sm text-pan-marron transition focus:border-pan-naranja focus:outline-none focus:ring-2 focus:ring-pan-naranja/20"
               required
             />
           </div>
 
           {error && (
-            <p className="rounded-lg bg-red-50 p-2.5 text-xs font-semibold text-red-600 text-center border border-red-200">
+            <p className="rounded-lg border border-red-200 bg-red-50 p-2.5 text-center text-xs font-semibold text-red-600">
               {error}
             </p>
           )}
@@ -84,7 +81,7 @@ function Login({ onLoginExitoso, onVolver }) {
           <button
             type="submit"
             disabled={cargando}
-            className="mt-2 rounded-xl bg-pan-naranja py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-pan-naranja-hover hover:shadow-lg disabled:opacity-50 cursor-pointer"
+            className="mt-2 cursor-pointer rounded-xl bg-pan-naranja py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-pan-naranja-hover hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
           >
             {cargando ? "Ingresando..." : "Ingresar"}
           </button>
@@ -92,8 +89,8 @@ function Login({ onLoginExitoso, onVolver }) {
 
         <button
           type="button"
-          onClick={volver}
-          className="mt-4 w-full text-center text-xs text-pan-marron/70 hover:underline cursor-pointer"
+          onClick={() => navigate("/")}
+          className="mt-4 w-full cursor-pointer text-center text-xs text-pan-marron/70 hover:underline"
         >
           Volver al inicio
         </button>
