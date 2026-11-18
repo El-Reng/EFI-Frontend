@@ -1,114 +1,312 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-function Navbar({usuarioActual, onCerrarSesion}) {
+function Navbar({ usuarioActual: propUsuario, onCerrarSesion: propLogout }) {
   const navigate = useNavigate();
-  // boton para anrir y cerrar el menu del avatar
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const [menuMovil, setMenuMovil] = useState(false);
+  const menuRef = useRef(null);
+
+  const auth = useAuth();
+  const usuario = propUsuario || auth?.usuario;
+  const onCerrarSesion = propLogout || auth?.logout;
+
+  // Cerramos el menu de usuario al hacer clic afuera
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuAbierto(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const estiloLink = ({ isActive }) =>
-    `hover:underline ${
-      isActive ? "underline underline-offset-4 font-bold" : ""
+    `transition-colors duration-200 hover:opacity-75 ${
+      isActive
+        ? "underline underline-offset-8 decoration-2 decoration-pan-marron font-bold"
+        : "font-semibold"
     }`;
 
+  const estiloLinkMovil = ({ isActive }) =>
+    `block rounded-xl px-4 py-2.5 text-base font-semibold transition ${
+      isActive
+        ? "bg-pan-marron/10 font-bold underline underline-offset-4"
+        : "hover:bg-pan-marron/5"
+    }`;
+
+  const nombreMostrado =
+    usuario?.username ||
+    usuario?.nombre ||
+    (typeof usuario === "string" ? usuario : "Mi cuenta");
+
+  function cerrarTodo() {
+    setMenuAbierto(false);
+    setMenuMovil(false);
+  }
+
   return (
-    <header className="sticky top-0 z-20 bg-amber-300 text-amber-950 shadow-sm">
-      <nav className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4">
+    <header className="sticky top-0 z-40 bg-pan-amarillo bg-patron-invertido text-pan-marron shadow-md border-b border-amber-400/60">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
+        {/* Logotipo con Icono de Panadería */}
         <Link
           to="/"
-          className="font-serif text-2xl font-bold tracking-tight hover:opacity-90"
+          onClick={cerrarTodo}
+          className="font-serif text-2xl sm:text-3xl font-bold tracking-wide transition hover:opacity-85 flex items-center gap-2"
         >
-          🥖 Panadería
+          <span className="text-2xl leading-none">🥖</span>
+          <span>Panadería</span>
         </Link>
 
-        <ul className="flex flex-wrap gap-6 font-semibold">
+        {/* Links Desktop (md y superior) */}
+        <ul className="hidden md:flex items-center gap-7 text-base">
           <li>
             <NavLink to="/" end className={estiloLink}>
               Inicio
             </NavLink>
           </li>
-
           <li>
             <NavLink to="/productos" className={estiloLink}>
               Productos
             </NavLink>
           </li>
-
           <li>
             <NavLink to="/categorias" className={estiloLink}>
               Categorías
             </NavLink>
           </li>
-
           <li>
             <NavLink to="/nosotros" className={estiloLink}>
               Nosotros
             </NavLink>
           </li>
-          
         </ul>
-                {/* avatar tipo facebook */}
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => setMenuAbierto(!menuAbierto)}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-200 text-amber-900 border border-amber-400 hover:bg-amber-100 focus:outline-none"
-            aria-label="menu de usuario"
-          >
-            <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-            </svg>
-          </button>
 
-          {/* ventana de inicio de sesion */}
-          {menuAbierto && (
-            <div className="absolute left-1/2 -translate-x-1/2 mt-3 w-44 rounded border border-stone-300 bg-white p-2 text-stone-800 shadow-lg text-xs z-50">
-              
-              <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 h-3 w-3 rotate-45 border-t border-l border-stone-300 bg-white" />
-
-              {usuarioActual ? (
-                <div>
-                  <p className="font-bold">{usuarioActual.nombre}</p>
-                  <p className="text-stone-500 mb-2">
-                    {usuarioActual.esSuperAdmin ? "Super Admin" : "Admin"}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuAbierto(false);
-                      navigate("/admin");
-                    }}
-                    className="w-full text-left p-1 hover:bg-stone-100 font-semibold"
-                  >
-                    Panel Admin
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuAbierto(false);
-                      onCerrarSesion();
-                    }}
-                    className="w-full text-left p-1 text-red-600 hover:bg-red-50 font-semibold mt-1"
-                  >
-                    Cerrar sesion
-                  </button>
-                </div>
-              ) : (
+        {/* Contenedor derecho: Boton de Usuario + Hamburguesa en mobile */}
+        <div className="flex items-center gap-3">
+          {/* Boton Pill de Usuario / Login (visible en desktop y mobile) */}
+          <div className="relative" ref={menuRef}>
+            {!usuario ? (
+              <button
+                type="button"
+                onClick={() => {
+                  cerrarTodo();
+                  navigate("/login");
+                }}
+                className="flex items-center gap-2 rounded-full border border-amber-400/80 bg-white/90 px-3.5 py-1.5 text-xs sm:text-sm font-bold text-pan-marron shadow-sm transition-all duration-200 hover:bg-white hover:shadow-md hover:scale-[1.03] cursor-pointer"
+                aria-label="Iniciar sesión"
+              >
+                <svg
+                  className="h-4 w-4 text-pan-marron"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
+                </svg>
+                <span>Iniciar sesión</span>
+              </button>
+            ) : (
+              <>
                 <button
                   type="button"
-                  onClick={() => {
-                    setMenuAbierto(false);
-                    navigate("/login");
-                  }}
-                  className="w-full text-left p-1 hover:bg-stone-100 font-semibold"
+                  onClick={() => setMenuAbierto(!menuAbierto)}
+                  className="flex items-center gap-2 rounded-full border border-amber-400/80 bg-white/90 px-3.5 py-1.5 text-xs sm:text-sm font-bold text-pan-marron shadow-sm transition-all duration-200 hover:bg-white hover:shadow-md hover:scale-[1.03] cursor-pointer"
+                  aria-label="Menú de usuario"
                 >
-                  Iniciar sesion
+                  <svg
+                    className="h-4 w-4 text-pan-marron"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                  </svg>
+                  <span className="max-w-[100px] truncate sm:max-w-[150px]">
+                    {nombreMostrado}
+                  </span>
+                  <svg
+                    className={`h-3.5 w-3.5 text-pan-marron/70 transition-transform duration-200 ${
+                      menuAbierto ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2.5"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
                 </button>
-              )}
-            </div>
-          )}
-        </div>   
+
+                {/* Dropdown del usuario */}
+                {menuAbierto && (
+                  <div className="absolute right-0 mt-2.5 w-52 rounded-2xl border border-amber-200 bg-white p-2 text-xs sm:text-sm text-pan-marron shadow-xl z-50 animate-in fade-in zoom-in-95">
+                    <div className="border-b border-amber-100 px-3 py-2">
+                      <p className="font-bold text-sm text-pan-marron truncate">
+                        {nombreMostrado}
+                      </p>
+                      <p className="text-[11px] font-medium text-pan-marron/70">
+                        {usuario.isOwner || usuario.esSuperAdmin
+                          ? "Super Administrador"
+                          : "Administrador"}
+                      </p>
+                    </div>
+
+                    <div className="mt-1 flex flex-col gap-0.5">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          cerrarTodo();
+                          navigate("/admin/usuarios");
+                        }}
+                        className="flex items-center gap-2.5 w-full rounded-xl px-3 py-2 text-left font-semibold text-pan-marron transition hover:bg-amber-50 cursor-pointer"
+                      >
+                        <svg
+                          className="h-4 w-4 text-amber-700"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                          />
+                        </svg>
+                        <span>Cuenta</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          cerrarTodo();
+                          navigate("/admin");
+                        }}
+                        className="flex items-center gap-2.5 w-full rounded-xl px-3 py-2 text-left font-semibold text-pan-marron transition hover:bg-amber-50 cursor-pointer"
+                      >
+                        <span className="text-sm leading-none">⚙️</span>
+                        <span>Panel de administrador</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          cerrarTodo();
+                          if (onCerrarSesion) onCerrarSesion();
+                        }}
+                        className="flex items-center gap-2.5 w-full rounded-xl px-3 py-2 text-left font-semibold text-red-600 transition hover:bg-red-50 mt-1 border-t border-amber-100/60 pt-2 cursor-pointer"
+                      >
+                        <span className="text-sm leading-none">🚪</span>
+                        <span>Cerrar sesión</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+
+          {/* Boton Hamburguesa (solo visible en pantallas pequeñas) */}
+          <button
+            type="button"
+            onClick={() => setMenuMovil(!menuMovil)}
+            className="md:hidden flex h-9 w-9 items-center justify-center rounded-xl bg-white/80 text-pan-marron shadow-xs transition hover:bg-white cursor-pointer"
+            aria-label={menuMovil ? "Cerrar menú" : "Abrir menú"}
+          >
+            {menuMovil ? (
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            )}
+          </button>
+        </div>
       </nav>
+
+      {/* Menu Desplegable Mobile */}
+      {menuMovil && (
+        <div className="md:hidden border-t border-amber-400/50 bg-pan-amarillo/95 backdrop-blur-xs px-4 py-3 shadow-lg">
+          <ul className="flex flex-col gap-1 text-base">
+            <li>
+              <NavLink
+                to="/"
+                end
+                onClick={() => setMenuMovil(false)}
+                className={estiloLinkMovil}
+              >
+                Inicio
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/productos"
+                onClick={() => setMenuMovil(false)}
+                className={estiloLinkMovil}
+              >
+                Productos
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/categorias"
+                onClick={() => setMenuMovil(false)}
+                className={estiloLinkMovil}
+              >
+                Categorías
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/nosotros"
+                onClick={() => setMenuMovil(false)}
+                className={estiloLinkMovil}
+              >
+                Nosotros
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+      )}
     </header>
   );
 }

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#D96B27" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Estructura del horno -->
+  <rect x="12" y="18" width="76" height="64" rx="8" fill="#FFF9ED" />
+  <!-- Puerta de vidrio con visión interior -->
+  <rect x="20" y="26" width="46" height="48" rx="5" fill="#FFF2DC" stroke="#D96B27" stroke-width="2.5" />
+  <!-- Manija de la puerta -->
+  <line x1="26" y1="31" x2="60" y2="31" stroke="#D96B27" stroke-width="2.5" />
+  <!-- Pan horneándose adentro en la rejilla -->
+  <line x1="24" y1="64" x2="62" y2="64" stroke="#D96B27" stroke-width="2" />
+  <path d="M 32,64 C 32,53 43,48 54,64 Z" fill="#F6C824" stroke="#D96B27" stroke-width="2" />
+  <!-- Cortes superiores de la corteza del pan caliente -->
+  <line x1="39" y1="56" x2="41" y2="62" stroke="#D96B27" stroke-width="1.8" />
+  <line x1="45" y1="54" x2="47" y2="62" stroke="#D96B27" stroke-width="1.8" />
+  <!-- Panel lateral con perillas circulares -->
+  <circle cx="76" cy="34" r="3.5" fill="#D96B27" />
+  <circle cx="76" cy="46" r="3.5" fill="#D96B27" />
+  <circle cx="76" cy="58" r="3.5" fill="#D96B27" />
+  <!-- Patitas del horno -->
+  <line x1="22" y1="82" x2="22" y2="88" stroke="#D96B27" stroke-width="4" />
+  <line x1="78" y1="82" x2="78" y2="88" stroke="#D96B27" stroke-width="4" />
+</svg>

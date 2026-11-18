@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#D96B27" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Cuerpo principal curvado -->
+  <path d="M 18,65 C 12,48 22,25 45,18 C 68,11 85,24 88,42 C 90,56 80,72 65,78 C 45,86 26,80 18,65 Z" fill="#FFF9ED" />
+  <!-- Puntas curvas del croissant -->
+  <path d="M 18,65 C 13,68 8,76 12,82 C 16,87 23,83 26,76" />
+  <path d="M 88,42 C 92,42 97,48 95,55 C 93,62 86,64 80,62" />
+  <!-- Segmentos y pliegues de masa hojaldrada -->
+  <path d="M 32,24 C 28,38 30,55 38,72" />
+  <path d="M 48,18 C 46,36 50,56 60,74" />
+  <path d="M 66,19 C 66,35 70,50 78,63" />
+  <path d="M 38,32 C 45,42 48,56 46,68" stroke-dasharray="0.5 4" stroke-width="2" />
+</svg>
