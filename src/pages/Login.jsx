@@ -1,21 +1,35 @@
 import { useState } from 'react'
+import {useAuth} from '../context/AuthContext' 
 
 function Login({ onLoginExitoso, onVolver }) {
-  // aca se guardam lo que escribe el usuario en la caja de texto
   const [usuario, setUsuario] = useState('')
   const [clave, setClave] = useState('')
   const [error, setError] = useState('')
+  const [cargando, setCargando] = useState(false)
+
+  // obtenemos la función login de nuestro authContext
+  const {login} = useAuth()
 
   // funcion que se ejecuta al apretar el boton ingresar
-  function manejarEnvio(e) {
+  async function manejarEnvio(e) {
     e.preventDefault()
-    // revisa los datos fijos de prueba
-    if (usuario === 'admin' && clave === '1234') {
-      onLoginExitoso()
-    } else {
-      setError('datos incorrectos (prueba: admin y 1234)')
+    setError('')
+    setCargando(true)
+  
+
+    // conectamos el login con la API
+    const resultado = await login(usuario, clave)
+    setCargando(false)
+
+    if (resultado.success) {
+      if (onLoginExitoso) {
+        onLoginExitoso(resultado.isOwner)
+      } else {
+        setError(resultado.error || 'Credenciales incorrectas o error en el servidor')
+      }
     }
   }
+
 
   return (
     <main className="mx-auto flex min-h-[60vh] max-w-sm flex-col justify-center px-4 py-12">
@@ -61,9 +75,10 @@ function Login({ onLoginExitoso, onVolver }) {
 
           <button
             type="submit"
+            disabled={cargando}
             className="rounded-lg border-2 border-amber-600 bg-amber-600 py-2 font-bold text-white transition-all hover:bg-amber-600"
           >
-            ingresar
+            {cargando ? 'ingresando...' : 'ingresar'}
           </button>
         </form>
 
