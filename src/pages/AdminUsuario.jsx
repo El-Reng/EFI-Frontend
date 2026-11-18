@@ -55,6 +55,7 @@ function AdminUsuarios() {
     setUsuarioSeleccionado(cuenta);
     setNombre(cuenta.username);
     setPassword("");
+    setEsOwner(cuenta.is_owner);
     setError("");
     setModal("editar");
   };
@@ -107,6 +108,7 @@ function AdminUsuarios() {
       const cuerpo = {
         username: nombre.trim(),
         password,
+        is_owner: esOwner,
       };
 
       if (!esEdicion) {
@@ -333,17 +335,15 @@ function AdminUsuarios() {
                     />
                   </div>
 
-                  {modal === "crear" && (
-                    <label className="flex items-center gap-2 text-sm font-medium text-pan-marron">
-                      <input
-                        type="checkbox"
-                        checked={esOwner}
-                        onChange={(e) => setEsOwner(e.target.checked)}
-                        className="h-4 w-4 rounded border-amber-300 text-pan-naranja focus:ring-pan-naranja"
-                      />
-                      Asignar rol de Super Admin (propietario)
-                    </label>
-                  )}
+                  <label className="flex items-center gap-2 text-sm font-medium text-pan-marron">
+                    <input
+                      type="checkbox"
+                      checked={esOwner}
+                      onChange={(e) => setEsOwner(e.target.checked)}
+                      className="h-4 w-4 rounded border-amber-300 text-pan-naranja focus:ring-pan-naranja"
+                    />
+                    Asignar rol de Super Admin (propietario)
+                  </label>
 
                   {error && (
                     <p className="rounded-lg bg-red-50 p-3 text-sm text-red-700">
