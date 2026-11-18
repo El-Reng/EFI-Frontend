@@ -1,5 +1,11 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -13,8 +19,24 @@ import Admin from "./pages/Admin";
 import AdminProductos from "./pages/AdminProductos";
 import AdminCategorias from "./pages/AdminCategorias";
 import AdminUsuarios from "./pages/AdminUsuario";
+import Cuenta from "./pages/Cuenta";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+
+function RutaPrivada({ children, soloOwner = false }) {
+  const { usuario, isOwner } = useAuth();
+  const location = useLocation();
+
+  if (!usuario) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  if (soloOwner && !isOwner) {
+    return <Navigate to="/admin/productos" replace />;
+  }
+
+  return children;
+}
 
 function App() {
   return (
@@ -32,18 +54,37 @@ function App() {
               <Route path="/nosotros" element={<Nosotros />} />
               <Route path="/login" element={<Login />} />
 
-              <Route path="/admin" element={<Admin />}>
+              <Route
+                path="/cuenta"
+                element={
+                  <RutaPrivada>
+                    <Cuenta />
+                  </RutaPrivada>
+                }
+              />
+
+              <Route
+                path="/admin"
+                element={
+                  <RutaPrivada>
+                    <Admin />
+                  </RutaPrivada>
+                }
+              >
                 <Route
                   index
-                  element={
-                    <p className="mt-4 text-pan-marron/80 font-medium">
-                      Seleccioná una sección del panel en el menú lateral.
-                    </p>
-                  }
+                  element={<Navigate to="/admin/productos" replace />}
                 />
                 <Route path="productos" element={<AdminProductos />} />
                 <Route path="categorias" element={<AdminCategorias />} />
-                <Route path="usuarios" element={<AdminUsuarios />} />
+                <Route
+                  path="usuarios"
+                  element={
+                    <RutaPrivada soloOwner>
+                      <AdminUsuarios />
+                    </RutaPrivada>
+                  }
+                />
                 <Route path="productos/:id" element={<DetalleProducto />} />
               </Route>
 
