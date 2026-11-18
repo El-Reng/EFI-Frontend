@@ -111,10 +111,6 @@ function AdminUsuarios() {
         is_owner: esOwner,
       };
 
-      if (!esEdicion) {
-        cuerpo.is_owner = esOwner;
-      }
-
       const respuesta = await fetchAutenticado(url, {
         method: esEdicion ? "PUT" : "POST",
         headers: {
