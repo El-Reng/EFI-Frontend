@@ -91,7 +91,9 @@ function AdminUsuarios() {
   const guardarUsuario = async (e) => {
     e.preventDefault();
 
-    if (!nombre.trim() || !password) {
+    const esEdicion = modal === "editar";
+
+    if (!nombre.trim() || (!esEdicion && !password)) {
       setError("El usuario y la contraseña son obligatorios.");
       return;
     }
@@ -100,16 +102,18 @@ function AdminUsuarios() {
       setProcesando(true);
       setError("");
 
-      const esEdicion = modal === "editar";
       const url = esEdicion
         ? `${API_URL}/users/${usuarioSeleccionado.id}`
         : `${API_URL}/users/`;
 
       const cuerpo = {
         username: nombre.trim(),
-        password,
         is_owner: esOwner,
       };
+
+      if (password) {
+        cuerpo.password = password;
+      }
 
       const respuesta = await fetchAutenticado(url, {
         method: esEdicion ? "PUT" : "POST",
@@ -319,14 +323,20 @@ function AdminUsuarios() {
 
                   <div>
                     <label className="mb-1 block text-sm font-semibold text-pan-marron">
-                      {modal === "crear" ? "Contraseña" : "Nueva contraseña"}
+                      {modal === "crear"
+                        ? "Contraseña"
+                        : "Nueva contraseña (opcional)"}
                     </label>
                     <input
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Ingresá una contraseña"
-                      required
+                      placeholder={
+                        modal === "crear"
+                          ? "Ingresá una contraseña"
+                          : "Dejá vacío para conservar la actual"
+                      }
+                      required={modal === "crear"}
                       className="w-full rounded-xl border border-amber-200 bg-amber-50/30 px-3.5 py-2.5 text-sm text-pan-marron outline-none focus:border-pan-naranja"
                     />
                   </div>
