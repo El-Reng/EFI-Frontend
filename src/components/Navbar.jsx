@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 
 function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { usuario, isOwner, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const [menuAbierto, setMenuAbierto] = useState(false);
   const [menuMovil, setMenuMovil] = useState(false);
@@ -97,6 +99,17 @@ function Navbar() {
         </ul>
 
         <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-amber-400/80 bg-white/90 text-lg shadow-sm transition-all hover:scale-105 hover:bg-white hover:shadow-md"
+            aria-label={
+              theme === "light" ? "Activar tema oscuro" : "Activar tema claro"
+            }
+            title={theme === "light" ? "Tema oscuro" : "Tema claro"}
+          >
+            {theme === "light" ? "🌙" : "☀️"}
+          </button>
           <div className="relative" ref={menuRef}>
             {!usuario ? (
               <button

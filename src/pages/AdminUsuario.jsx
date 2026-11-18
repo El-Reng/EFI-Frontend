@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 function AdminUsuarios() {
-  const { token, usuario } = useAuth();
+  const { fetchAutenticado, usuario } = useAuth();
 
   const [usuarios, setUsuarios] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -23,11 +23,7 @@ function AdminUsuarios() {
       setCargando(true);
       setError("");
 
-      const respuesta = await fetch(`${API_URL}/users/?size=100`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const respuesta = await fetchAutenticado(`${API_URL}/users/?size=100`);
 
       if (!respuesta.ok) {
         throw new Error("No se pudieron cargar los usuarios.");
@@ -40,7 +36,7 @@ function AdminUsuarios() {
     } finally {
       setCargando(false);
     }
-  }, [token]);
+  }, [fetchAutenticado]);
 
   useEffect(() => {
     obtenerUsuarios();
@@ -117,11 +113,10 @@ function AdminUsuarios() {
         cuerpo.is_owner = esOwner;
       }
 
-      const respuesta = await fetch(url, {
+      const respuesta = await fetchAutenticado(url, {
         method: esEdicion ? "PUT" : "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(cuerpo),
       });
@@ -149,13 +144,10 @@ function AdminUsuarios() {
       setProcesando(true);
       setError("");
 
-      const respuesta = await fetch(
+      const respuesta = await fetchAutenticado(
         `${API_URL}/users/${usuarioSeleccionado.id}`,
         {
           method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         },
       );
 

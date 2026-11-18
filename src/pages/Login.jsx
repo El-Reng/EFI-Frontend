@@ -12,6 +12,8 @@ function Login() {
   const [error, setError] = useState("");
   const [cargando, setCargando] = useState(false);
 
+  const mensajeSesion = location.state?.mensaje;
+
   async function manejarEnvio(e) {
     e.preventDefault();
     setError("");
@@ -71,6 +73,12 @@ function Login() {
               required
             />
           </div>
+
+          {mensajeSesion && (
+            <p className="rounded-lg border border-amber-200 bg-amber-50 p-2.5 text-center text-xs font-semibold text-amber-800">
+              {mensajeSesion}
+            </p>
+          )}
 
           {error && (
             <p className="rounded-lg border border-red-200 bg-red-50 p-2.5 text-center text-xs font-semibold text-red-600">

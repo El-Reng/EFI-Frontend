@@ -12,7 +12,7 @@ const formularioInicial = {
 };
 
 function AdminProductos() {
-  const { token, isOwner } = useAuth();
+  const { fetchAutenticado, isOwner } = useAuth();
 
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
@@ -29,11 +29,7 @@ function AdminProductos() {
       setError("");
 
       const [respuestaProductos, respuestaCategorias] = await Promise.all([
-        fetch(`${API_URL}/products/?size=100`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }),
+        fetchAutenticado(`${API_URL}/products/?size=100`),
         fetch(`${API_URL}/categories/?size=100`),
       ]);
 
@@ -51,7 +47,7 @@ function AdminProductos() {
     } finally {
       setCargando(false);
     }
-  }, [token]);
+  }, [fetchAutenticado]);
 
   useEffect(() => {
     obtenerDatos();
@@ -136,11 +132,10 @@ function AdminProductos() {
         ? `${API_URL}/products/${modal.producto.id}`
         : `${API_URL}/products/`;
 
-      const respuesta = await fetch(url, {
+      const respuesta = await fetchAutenticado(url, {
         method: esEdicion ? "PUT" : "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(datosProducto),
       });
@@ -170,13 +165,10 @@ function AdminProductos() {
       setProcesando(true);
       setError("");
 
-      const respuesta = await fetch(
+      const respuesta = await fetchAutenticado(
         `${API_URL}/products/${modal.producto.id}`,
         {
           method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         },
       );
 

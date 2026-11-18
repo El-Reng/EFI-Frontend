@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 function AdminCategorias() {
-  const { token } = useAuth();
+  const { fetchAutenticado } = useAuth();
 
   const [categorias, setCategorias] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -98,11 +98,10 @@ function AdminCategorias() {
         ? `${API_URL}/categories/${categoriaSeleccionada.id}`
         : `${API_URL}/categories/`;
 
-      const respuesta = await fetch(url, {
+      const respuesta = await fetchAutenticado(url, {
         method: esEdicion ? "PUT" : "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           name: nombre.trim(),
@@ -128,13 +127,10 @@ function AdminCategorias() {
       setProcesando(true);
       setError("");
 
-      const respuesta = await fetch(
+      const respuesta = await fetchAutenticado(
         `${API_URL}/categories/${categoriaSeleccionada.id}`,
         {
           method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         },
       );
 
