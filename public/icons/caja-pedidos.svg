@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#D96B27" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Caja y Tapa -->
+  <rect x="18" y="44" width="64" height="42" rx="4" fill="#FFF9ED" />
+  <rect x="14" y="34" width="72" height="12" rx="3" fill="#FFF2DC" />
+  <!-- Cinta vertical -->
+  <rect x="44" y="34" width="12" height="52" fill="#F6C824" stroke="#D96B27" stroke-width="2.5" />
+  <!-- Cinta horizontal -->
+  <rect x="18" y="58" width="64" height="10" fill="#F6C824" stroke="#D96B27" stroke-width="2" />
+  <!-- Lazo y Moño superior -->
+  <path d="M 50,34 C 44,22 30,22 36,32 C 40,36 48,34 50,34 Z" fill="#F6C824" />
+  <path d="M 50,34 C 56,22 70,22 64,32 C 60,36 52,34 50,34 Z" fill="#F6C824" />
+  <circle cx="50" cy="34" r="3.5" fill="#D96B27" />
+  <!-- Puntas colgantes del moño -->
+  <path d="M 47,36 L 41,44" stroke-width="2" />
+  <path d="M 53,36 L 59,44" stroke-width="2" />
+</svg>

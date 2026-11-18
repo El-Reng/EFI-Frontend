@@ -54,10 +54,10 @@ function Categorias() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-10">
       <div className="mb-8 text-center">
-        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#3D1C06]">
+        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-pan-marron">
           Nuestras categorías
         </h1>
-        <p className="mt-2 text-sm text-[#3D1C06]/80">
+        <p className="mt-2 text-sm text-pan-marron/80">
           Conocé las distintas variedades de nuestra panadería artesanal.
         </p>
       </div>
@@ -83,7 +83,7 @@ function Categorias() {
               {categoria.image_url ? (
                 <div className="absolute inset-0 bg-black/40 transition-colors duration-300 group-hover:bg-black/50" />
               ) : (
-                <div className="absolute inset-0 bg-gradient-to-t from-[#3D1C06]/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-pan-marron/40 to-transparent" />
               )}
 
               <span className="relative z-10 px-4 text-center font-serif text-2xl font-bold text-white drop-shadow-md sm:text-3xl">

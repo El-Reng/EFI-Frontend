@@ -5,7 +5,8 @@ function Carousel({ slides, intervalo = 6000 }) {
   const [actual, setActual] = useState(0);
 
   const siguiente = () => setActual((i) => (i + 1) % slides.length);
-  const anterior = () => setActual((i) => (i - 1 + slides.length) % slides.length);
+  const anterior = () =>
+    setActual((i) => (i - 1 + slides.length) % slides.length);
 
   // Avanza solo periódicamente
   useEffect(() => {
@@ -16,7 +17,7 @@ function Carousel({ slides, intervalo = 6000 }) {
   }, [intervalo, slides.length]);
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-[#F6C824] shadow-lg border border-amber-300/70">
+    <div className="relative overflow-hidden rounded-3xl bg-pan-amarillo shadow-lg border border-amber-300/70">
       <div
         className="flex transition-transform duration-700 ease-out"
         style={{ transform: `translateX(-${actual * 100}%)` }}
@@ -28,16 +29,16 @@ function Carousel({ slides, intervalo = 6000 }) {
           >
             {/* Texto y llamado a la acción */}
             <div className="max-w-md space-y-4 text-center md:text-left z-10">
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#3D1C06] leading-tight tracking-tight">
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-pan-marron leading-tight tracking-tight">
                 {s.titulo}
               </h2>
-              <p className="text-base sm:text-lg text-[#3D1C06]/85 font-medium">
+              <p className="text-base sm:text-lg text-pan-marron/85 font-medium">
                 {s.subtitulo}
               </p>
               <div className="pt-2">
                 <Link
                   to={s.botonLink || "/productos"}
-                  className="inline-block rounded-full bg-[#D96B27] px-6 py-2.5 text-sm sm:text-base font-bold text-white shadow-md transition-all duration-200 hover:bg-[#B05219] hover:shadow-lg hover:-translate-y-0.5"
+                  className="inline-block rounded-full bg-pan-naranja px-6 py-2.5 text-sm sm:text-base font-bold text-white shadow-md transition-all duration-200 hover:bg-pan-naranja-hover hover:shadow-lg hover:-translate-y-0.5"
                 >
                   {s.botonTexto || "Ver catálogo"}
                 </Link>
@@ -62,14 +63,14 @@ function Carousel({ slides, intervalo = 6000 }) {
       <button
         onClick={anterior}
         aria-label="Anterior"
-        className="absolute left-3 top-1/2 -translate-y-1/2 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/95 text-xl font-bold text-[#3D1C06] shadow-md transition-all duration-200 hover:bg-white hover:scale-105 cursor-pointer"
+        className="absolute left-3 top-1/2 -translate-y-1/2 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/95 text-xl font-bold text-pan-marron shadow-md transition-all duration-200 hover:bg-white hover:scale-105 cursor-pointer"
       >
         ‹
       </button>
       <button
         onClick={siguiente}
         aria-label="Siguiente"
-        className="absolute right-3 top-1/2 -translate-y-1/2 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/95 text-xl font-bold text-[#3D1C06] shadow-md transition-all duration-200 hover:bg-white hover:scale-105 cursor-pointer"
+        className="absolute right-3 top-1/2 -translate-y-1/2 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/95 text-xl font-bold text-pan-marron shadow-md transition-all duration-200 hover:bg-white hover:scale-105 cursor-pointer"
       >
         ›
       </button>
@@ -83,7 +84,7 @@ function Carousel({ slides, intervalo = 6000 }) {
             aria-label={`Ir a la diapositiva ${i + 1}`}
             className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
               i === actual
-                ? "w-6 bg-[#D96B27] shadow-xs"
+                ? "w-6 bg-pan-naranja shadow-xs"
                 : "w-2.5 bg-white/80 hover:bg-white shadow-xs"
             }`}
           />

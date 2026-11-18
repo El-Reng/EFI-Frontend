@@ -26,7 +26,9 @@ function Login({ onLoginExitoso, onVolver }) {
         navigate("/admin");
       }
     } else {
-      setError(resultado.error || "Credenciales incorrectas o error en el servidor");
+      setError(
+        resultado.error || "Credenciales incorrectas o error en el servidor",
+      );
     }
   }
 
@@ -41,34 +43,34 @@ function Login({ onLoginExitoso, onVolver }) {
   return (
     <div className="mx-auto flex min-h-[60vh] max-w-sm flex-col justify-center px-4 py-12">
       <div className="rounded-2xl border border-amber-200/90 bg-white p-8 shadow-xl">
-        <h1 className="font-serif text-2xl font-bold text-center text-[#3D1C06]">
+        <h1 className="font-serif text-2xl font-bold text-center text-pan-marron">
           Iniciar sesión
         </h1>
-        <p className="mt-1 text-xs text-center text-[#3D1C06]/75">
+        <p className="mt-1 text-xs text-center text-pan-marron/75">
           Solo personal de la panadería
         </p>
 
         <form onSubmit={manejarEnvio} className="mt-6 flex flex-col gap-4">
           <div>
-            <label className="text-xs font-bold text-[#3D1C06]">Usuario</label>
+            <label className="text-xs font-bold text-pan-marron">Usuario</label>
             <input
               type="text"
               value={usuario}
               onChange={(e) => setUsuario(e.target.value)}
               placeholder="admin"
-              className="mt-1 w-full rounded-xl border border-amber-200 bg-amber-50/40 p-2.5 text-sm text-[#3D1C06] focus:border-[#D96B27] focus:outline-none focus:ring-2 focus:ring-[#D96B27]/20 transition"
+              className="mt-1 w-full rounded-xl border border-amber-200 bg-amber-50/40 p-2.5 text-sm text-pan-marron focus:border-pan-naranja focus:outline-none focus:ring-2 focus:ring-pan-naranja/20 transition"
               required
             />
           </div>
 
           <div>
-            <label className="text-xs font-bold text-[#3D1C06]">Clave</label>
+            <label className="text-xs font-bold text-pan-marron">Clave</label>
             <input
               type="password"
               value={clave}
               onChange={(e) => setClave(e.target.value)}
               placeholder="1234"
-              className="mt-1 w-full rounded-xl border border-amber-200 bg-amber-50/40 p-2.5 text-sm text-[#3D1C06] focus:border-[#D96B27] focus:outline-none focus:ring-2 focus:ring-[#D96B27]/20 transition"
+              className="mt-1 w-full rounded-xl border border-amber-200 bg-amber-50/40 p-2.5 text-sm text-pan-marron focus:border-pan-naranja focus:outline-none focus:ring-2 focus:ring-pan-naranja/20 transition"
               required
             />
           </div>
@@ -82,7 +84,7 @@ function Login({ onLoginExitoso, onVolver }) {
           <button
             type="submit"
             disabled={cargando}
-            className="mt-2 rounded-xl bg-[#D96B27] py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-[#B05219] hover:shadow-lg disabled:opacity-50 cursor-pointer"
+            className="mt-2 rounded-xl bg-pan-naranja py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-pan-naranja-hover hover:shadow-lg disabled:opacity-50 cursor-pointer"
           >
             {cargando ? "Ingresando..." : "Ingresar"}
           </button>
@@ -91,7 +93,7 @@ function Login({ onLoginExitoso, onVolver }) {
         <button
           type="button"
           onClick={volver}
-          className="mt-4 w-full text-center text-xs text-[#3D1C06]/70 hover:underline cursor-pointer"
+          className="mt-4 w-full text-center text-xs text-pan-marron/70 hover:underline cursor-pointer"
         >
           Volver al inicio
         </button>

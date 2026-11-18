@@ -90,9 +90,7 @@ function Catalogo() {
   }
 
   function verDetalle(id) {
-    const rutaDetalle = esAdmin
-      ? `/admin/productos/${id}`
-      : `/productos/${id}`;
+    const rutaDetalle = esAdmin ? `/admin/productos/${id}` : `/productos/${id}`;
 
     navigate(rutaDetalle);
   }
@@ -116,10 +114,10 @@ function Catalogo() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-10">
       <div className="mb-8 text-center">
-        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#3D1C06]">
+        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-pan-marron">
           {esAdmin ? "Gestión de productos" : "Nuestro Catálogo"}
         </h1>
-        <p className="mt-2 text-sm text-[#3D1C06]/80">
+        <p className="mt-2 text-sm text-pan-marron/80">
           {esAdmin
             ? "Consultá y administrá los productos registrados."
             : "Elegí tus favoritos recién horneados."}
@@ -132,7 +130,7 @@ function Catalogo() {
           value={busqueda}
           onChange={cambiarBusqueda}
           placeholder="Buscar panes, facturas, tortas..."
-          className="w-full rounded-2xl border border-amber-200/90 bg-white px-5 py-3 text-sm text-[#3D1C06] placeholder:text-gray-400 shadow-sm focus:border-[#D96B27] focus:outline-none focus:ring-2 focus:ring-[#D96B27]/20 transition"
+          className="w-full rounded-2xl border border-amber-200/90 bg-white px-5 py-3 text-sm text-pan-marron placeholder:text-gray-400 shadow-sm focus:border-pan-naranja focus:outline-none focus:ring-2 focus:ring-pan-naranja/20 transition"
         />
       </div>
 
@@ -142,8 +140,8 @@ function Catalogo() {
           onClick={() => cambiarCategoria("Todos")}
           className={`rounded-full px-5 py-2 text-sm font-semibold transition-all shadow-xs cursor-pointer ${
             categoriaActual === "Todos"
-              ? "bg-[#D96B27] text-white shadow-sm font-bold"
-              : "bg-white text-[#3D1C06] border border-amber-200/80 hover:bg-amber-50"
+              ? "bg-pan-naranja text-white shadow-sm font-bold"
+              : "bg-white text-pan-marron border border-amber-200/80 hover:bg-amber-50"
           }`}
         >
           Todos
@@ -156,8 +154,8 @@ function Catalogo() {
             onClick={() => cambiarCategoria(String(categoria.id))}
             className={`rounded-full px-5 py-2 text-sm font-semibold transition-all shadow-xs cursor-pointer ${
               categoriaActual === String(categoria.id)
-                ? "bg-[#D96B27] text-white shadow-sm font-bold"
-                : "bg-white text-[#3D1C06] border border-amber-200/80 hover:bg-amber-50"
+                ? "bg-pan-naranja text-white shadow-sm font-bold"
+                : "bg-white text-pan-marron border border-amber-200/80 hover:bg-amber-50"
             }`}
           >
             {categoria.name}
@@ -192,12 +190,12 @@ function Catalogo() {
             type="button"
             onClick={() => setPaginaActual(paginaActual - 1)}
             disabled={paginaActual === 1}
-            className="rounded-xl border border-amber-200 bg-white px-4 py-2 text-sm font-bold text-[#3D1C06] shadow-sm hover:bg-amber-50 disabled:opacity-40 transition cursor-pointer"
+            className="rounded-xl border border-amber-200 bg-white px-4 py-2 text-sm font-bold text-pan-marron shadow-sm hover:bg-amber-50 disabled:opacity-40 transition cursor-pointer"
           >
             ← Anterior
           </button>
 
-          <span className="text-sm font-semibold text-[#3D1C06]">
+          <span className="text-sm font-semibold text-pan-marron">
             Página {paginaActual} de {totalPaginas}
           </span>
 
@@ -205,7 +203,7 @@ function Catalogo() {
             type="button"
             onClick={() => setPaginaActual(paginaActual + 1)}
             disabled={paginaActual === totalPaginas}
-            className="rounded-xl border border-amber-200 bg-white px-4 py-2 text-sm font-bold text-[#3D1C06] shadow-sm hover:bg-amber-50 disabled:opacity-40 transition cursor-pointer"
+            className="rounded-xl border border-amber-200 bg-white px-4 py-2 text-sm font-bold text-pan-marron shadow-sm hover:bg-amber-50 disabled:opacity-40 transition cursor-pointer"
           >
             Siguiente →
           </button>

@@ -20,7 +20,7 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <div className="flex min-h-screen flex-col bg-[#FAF6EB] bg-patron-body text-[#3D1C06] font-sans antialiased selection:bg-[#F6C824] selection:text-[#3D1C06]">
+        <div className="flex min-h-screen flex-col bg-pan-crema bg-patron-body text-pan-marron font-sans antialiased selection:bg-pan-amarillo selection:text-pan-marron">
           <Navbar />
 
           <main className="flex-1">
@@ -36,7 +36,7 @@ function App() {
                 <Route
                   index
                   element={
-                    <p className="mt-4 text-[#3D1C06]/80 font-medium">
+                    <p className="mt-4 text-pan-marron/80 font-medium">
                       Seleccioná una sección del panel en el menú lateral.
                     </p>
                   }

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#D96B27" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <g transform="rotate(25 50 50)">
+    <!-- Tallo central -->
+    <path d="M 50,92 L 50,15" stroke-width="3" />
+    <!-- Granos simétricos de trigo -->
+    <!-- Nivel 1 -->
+    <path d="M 50,30 C 40,24 35,32 50,42" fill="#FFF9ED" />
+    <path d="M 50,30 C 60,24 65,32 50,42" fill="#FFF9ED" />
+    <!-- Nivel 2 -->
+    <path d="M 50,42 C 38,36 33,44 50,54" fill="#FFF9ED" />
+    <path d="M 50,42 C 62,36 67,44 50,54" fill="#FFF9ED" />
+    <!-- Nivel 3 -->
+    <path d="M 50,54 C 38,48 33,56 50,66" fill="#FFF9ED" />
+    <path d="M 50,54 C 62,48 67,56 50,66" fill="#FFF9ED" />
+    <!-- Nivel 4 -->
+    <path d="M 50,66 C 39,60 35,68 50,78" fill="#FFF9ED" />
+    <path d="M 50,66 C 61,60 65,68 50,78" fill="#FFF9ED" />
+    <!-- Barbas finas superiores -->
+    <path d="M 50,15 L 42,6" stroke-width="2" />
+    <path d="M 50,15 L 50,4" stroke-width="2" />
+    <path d="M 50,15 L 58,6" stroke-width="2" />
+  </g>
+</svg>

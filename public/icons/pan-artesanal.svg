@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#D96B27" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Hogaza rústica -->
+  <path d="M 15,62 C 12,45 25,24 50,24 C 75,24 88,45 85,62 C 82,72 68,76 50,76 C 32,76 18,72 15,62 Z" fill="#FFF9ED" />
+  <!-- Cortes diagonales (greignes) de panadería -->
+  <path d="M 32,38 C 36,46 36,56 34,64" stroke-width="2.5" />
+  <path d="M 48,32 C 52,44 52,58 49,67" stroke-width="2.5" />
+  <path d="M 64,38 C 67,46 67,56 65,64" stroke-width="2.5" />
+  <!-- Base de apoyo del pan -->
+  <path d="M 22,66 C 34,70 66,70 78,66" stroke="#D96B27" stroke-width="2" opacity="0.5" />
+</svg>

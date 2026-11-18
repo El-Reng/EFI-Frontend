@@ -1,22 +1,29 @@
 @import "tailwindcss";
 
 @theme {
-  --color-pan-amarillo: #F6C824;
-  --color-pan-amarillo-claro: #FCE178;
-  --color-pan-crema: #FAF6EB;
-  --color-pan-marron: #3D1C06;
-  --color-pan-naranja: #D96B27;
-  --color-pan-naranja-hover: #B05219;
+  --font-serif: "Lobster", cursive;
+  --font-title: "Lobster", cursive;
+  --font-sans: "Nunito", sans-serif;
+  --color-pan-amarillo: #f6c824;
+  --color-pan-amarillo-claro: #fce178;
+  --color-pan-crema: #faf6eb;
+  --color-pan-marron: #3d1c06;
+  --color-pan-naranja: #d96b27;
+  --color-pan-naranja-hover: #b05219;
+}
+
+body {
+  font-family: var(--font-sans);
 }
 
 .bg-patron-body {
-  background-image: url('/patron-pan-body.svg');
+  background-image: url("/patron-pan-body.svg");
   background-repeat: repeat;
   background-size: 280px 280px;
 }
 
 .bg-patron-invertido {
-  background-image: url('/patron-pan-invertido.svg');
+  background-image: url("/patron-pan-invertido.svg");
   background-repeat: repeat;
   background-size: 280px 280px;
 }

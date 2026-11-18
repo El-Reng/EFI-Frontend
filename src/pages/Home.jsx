@@ -74,18 +74,18 @@ function Home() {
       <section className="mt-14">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#3D1C06]">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-pan-marron">
               Nuestros productos
             </h2>
 
-            <p className="mt-1 text-sm text-[#3D1C06]/80">
+            <p className="mt-1 text-sm text-pan-marron/80">
               Descubrí las delicias artesanales de nuestra panadería.
             </p>
           </div>
 
           <Link
             to="/productos"
-            className="text-sm font-bold text-[#D96B27] hover:text-[#B05219] transition-colors"
+            className="text-sm font-bold text-pan-naranja hover:text-pan-naranja-hover transition-colors"
           >
             Ver catálogo completo →
           </Link>
