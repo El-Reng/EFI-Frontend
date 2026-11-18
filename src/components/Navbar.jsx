@@ -74,10 +74,10 @@ function Navbar() {
           <span className="text-2xl leading-none">🥖</span>
           
           <div className=" flex flex-col">
-          <span>
+          <span className="text-sm font-bold tracking-wider opacity-100">
             Panaderia
           </span>
-          <span className="font-serif text-xl sm:text-2xl font-bold text-pan-marron transition-colors duration-200">
+          <span className="font-serif text-xl sm:text-3xl font-bold">
             El Pisingaio
           </span>
           </div>
