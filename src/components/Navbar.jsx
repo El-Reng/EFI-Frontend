@@ -72,7 +72,10 @@ function Navbar() {
           className="flex items-center gap-2 font-serif text-2xl font-bold tracking-wide transition hover:opacity-85 sm:text-3xl"
         >
           <span className="text-2xl leading-none">🥖</span>
-          <span>Panadería</span>
+          <span>Panaderia</span>
+          <span className="font-serif text-xl sm:text-2xl font-bold text-pan-marron">
+              El Pisingaio
+          </span>
         </Link>
 
         <ul className="hidden items-center gap-7 text-base md:flex">
