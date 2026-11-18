@@ -62,7 +62,10 @@ function Navbar({usuarioActual, onCerrarSesion}) {
 
           {/* ventana de inicio de sesion */}
           {menuAbierto && (
-            <div className="absolute right-0 mt-2 w-44 rounded border border-stone-300 bg-white p-2 text-stone-800 shadow text-xs">
+            <div className="absolute left-1/2 -translate-x-1/2 mt-3 w-44 rounded border border-stone-300 bg-white p-2 text-stone-800 shadow-lg text-xs z-50">
+              
+              <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 h-3 w-3 rotate-45 border-t border-l border-stone-300 bg-white" />
+
               {usuarioActual ? (
                 <div>
                   <p className="font-bold">{usuarioActual.nombre}</p>
@@ -104,8 +107,7 @@ function Navbar({usuarioActual, onCerrarSesion}) {
               )}
             </div>
           )}
-        </div>
-
+        </div>   
       </nav>
     </header>
   );
