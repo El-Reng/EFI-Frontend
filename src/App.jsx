@@ -24,11 +24,22 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
 function RutaPrivada({ children, soloOwner = false }) {
-  const { usuario, isOwner } = useAuth();
+  const { usuario, isOwner, sesionExpirada } = useAuth();
   const location = useLocation();
 
   if (!usuario) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return (
+      <Navigate
+        to="/login"
+        state={{
+          from: location,
+          mensaje: sesionExpirada
+            ? "Tu sesión expiró. Iniciá sesión nuevamente."
+            : undefined,
+        }}
+        replace
+      />
+    );
   }
 
   if (soloOwner && !isOwner) {

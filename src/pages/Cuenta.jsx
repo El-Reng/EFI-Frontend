@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 function Cuenta() {
-  const { usuario, token, actualizarUsuario } = useAuth();
+  const { usuario, fetchAutenticado, actualizarUsuario } = useAuth();
 
   const [username, setUsername] = useState(usuario?.username || "");
   const [claveActual, setClaveActual] = useState("");
@@ -29,11 +29,10 @@ function Cuenta() {
         datos.password = claveNueva;
       }
 
-      const respuesta = await fetch(`${apiUrl}/users/me`, {
+      const respuesta = await fetchAutenticado(`${apiUrl}/users/me`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(datos),
       });

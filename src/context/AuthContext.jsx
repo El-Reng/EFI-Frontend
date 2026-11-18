@@ -29,6 +29,8 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
+  const [sesionExpirada, setSesionExpirada] = useState(false);
+
   useEffect(() => {
     if (session) {
       localStorage.setItem("session", JSON.stringify(session));
@@ -36,6 +38,38 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem("session");
     }
   }, [session]);
+
+  const expirarSesion = useCallback(() => {
+    setSession(null);
+    setSesionExpirada(true);
+  }, []);
+
+  const logout = useCallback(() => {
+    setSession(null);
+    setSesionExpirada(false);
+  }, []);
+
+  const fetchAutenticado = useCallback(
+    async (url, opciones = {}) => {
+      const headers = new Headers(opciones.headers || {});
+
+      if (session?.token) {
+        headers.set("Authorization", `Bearer ${session.token}`);
+      }
+
+      const respuesta = await fetch(url, {
+        ...opciones,
+        headers,
+      });
+
+      if (respuesta.status === 401) {
+        expirarSesion();
+      }
+
+      return respuesta;
+    },
+    [session?.token, expirarSesion],
+  );
 
   const login = async (username, password) => {
     try {
@@ -76,6 +110,8 @@ export const AuthProvider = ({ children }) => {
         user: usuario,
       });
 
+      setSesionExpirada(false);
+
       return {
         success: true,
         isOwner: usuario.is_owner,
@@ -101,17 +137,15 @@ export const AuthProvider = ({ children }) => {
     });
   }, []);
 
-  const logout = useCallback(() => {
-    setSession(null);
-  }, []);
-
   const value = {
     usuario: session?.user || null,
     token: session?.token || null,
     isOwner: session?.user?.is_owner || false,
+    sesionExpirada,
     login,
     logout,
     actualizarUsuario,
+    fetchAutenticado,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

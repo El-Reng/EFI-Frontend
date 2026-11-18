@@ -12,6 +12,30 @@
   --color-pan-naranja-hover: #b05219;
 }
 
+/* Paleta alternativa para el tema oscuro */
+.dark {
+  --color-pan-amarillo: #332d20;
+  --color-pan-amarillo-claro: #4b4027;
+  --color-pan-crema: #1c1a17;
+  --color-pan-marron: #f1e6d2;
+  --color-pan-naranja: #d96b27;
+  --color-pan-naranja-hover: #ed8a4b;
+
+  --color-amber-50: #27231e;
+  --color-amber-100: #342d24;
+  --color-amber-200: #494033;
+  --color-amber-300: #62523e;
+  --color-amber-400: #806743;
+  --color-amber-500: #a17a42;
+  --color-amber-600: #c0924e;
+
+  --color-red-50: #382322;
+  --color-red-100: #4b2c2a;
+  --color-red-200: #70403b;
+  --color-red-600: #f28b82;
+  --color-red-700: #ffaaa2;
+}
+
 body {
   font-family: var(--font-sans);
 }
@@ -26,4 +50,27 @@ body {
   background-image: url("/patron-pan-invertido.svg");
   background-repeat: repeat;
   background-size: 280px 280px;
+}
+
+/* Superficies que utilizan blanco en el tema claro */
+.dark .bg-white {
+  background-color: #29251f;
+}
+
+.dark .bg-white\/90 {
+  background-color: rgb(41 37 31 / 90%);
+}
+
+.dark .bg-white\/80 {
+  background-color: rgb(41 37 31 / 80%);
+}
+
+.dark .hover\:bg-white:hover {
+  background-color: #393229;
+}
+
+/* Ajustes de fondos y textos secundarios */
+.dark .bg-patron-body,
+.dark .bg-patron-invertido {
+  background-blend-mode: soft-light;
 }
