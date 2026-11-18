@@ -77,7 +77,7 @@ function Navbar() {
           <span>
             Panaderia
           </span>
-          <span className="font-serif text-xl sm:text-2xl font-bold text-pan-marron">
+          <span className="font-serif text-xl sm:text-2xl font-bold text-pan-marron transition-colors duration-200">
             El Pisingaio
           </span>
           </div>
