@@ -37,7 +37,7 @@ function Categorias() {
 
   if (cargando) {
     return (
-      <section className="mx-auto max-w-6xl px-4 py-12 text-center">
+      <section className="mx-auto max-w-6xl px-4 py-12 text-center text-sm font-medium opacity-80">
         Cargando categorías...
       </section>
     );
@@ -52,11 +52,13 @@ function Categorias() {
   }
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-12">
+    <section className="mx-auto max-w-6xl px-4 py-10">
       <div className="mb-8 text-center">
-        <h1 className="font-serif text-3xl font-bold">Nuestras categorías</h1>
-        <p className="mt-2 opacity-80">
-          Conocé las distintas variedades de nuestra panadería.
+        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#3D1C06]">
+          Nuestras categorías
+        </h1>
+        <p className="mt-2 text-sm text-[#3D1C06]/80">
+          Conocé las distintas variedades de nuestra panadería artesanal.
         </p>
       </div>
 
@@ -72,17 +74,19 @@ function Categorias() {
                   ? { backgroundImage: `url("${categoria.image_url}")` }
                   : {}
               }
-              className={`group relative flex aspect-video items-center justify-center overflow-hidden rounded-xl border-2 border-amber-300 bg-linear-to-br from-amber-500 to-amber-800 bg-cover bg-center shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
+              className={`group relative flex aspect-video items-center justify-center overflow-hidden rounded-2xl border border-amber-200/90 bg-gradient-to-br from-amber-400 via-amber-500 to-amber-700 bg-cover bg-center shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer ${
                 categoria.image_url
                   ? ""
-                  : "hover:from-amber-600 hover:to-amber-900"
+                  : "hover:from-amber-500 hover:to-amber-800"
               }`}
             >
-              {categoria.image_url && (
-                <div className="absolute inset-0 bg-black/35 transition-colors duration-300 group-hover:bg-black/50" />
+              {categoria.image_url ? (
+                <div className="absolute inset-0 bg-black/40 transition-colors duration-300 group-hover:bg-black/50" />
+              ) : (
+                <div className="absolute inset-0 bg-gradient-to-t from-[#3D1C06]/40 to-transparent" />
               )}
 
-              <span className="relative z-10 px-4 text-center font-serif text-2xl font-bold text-white [-webkit-text-stroke:1px_black] sm:text-3xl">
+              <span className="relative z-10 px-4 text-center font-serif text-2xl font-bold text-white drop-shadow-md sm:text-3xl">
                 {categoria.name}
               </span>
             </button>

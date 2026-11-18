@@ -9,18 +9,30 @@ const API_URL = import.meta.env.VITE_API_URL;
 const slides = [
   {
     id: 1,
-    titulo: "Pan casero todos los días",
-    subtitulo: "Hecho con masa madre y mucho cariño",
+    titulo: "Encargos para tus reuniones",
+    subtitulo: "Facturas, tortas y mesas dulces",
+    imagen:
+      "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80",
+    botonTexto: "Ver catálogo",
+    botonLink: "/productos",
   },
   {
     id: 2,
-    titulo: "Medialunas recién horneadas",
-    subtitulo: "Pasá por la mañana y llevate las primeras",
+    titulo: "Pan casero todos los días",
+    subtitulo: "Hecho con masa madre, dedicación y mucho cariño",
+    imagen:
+      "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=800&q=80",
+    botonTexto: "Ver productos",
+    botonLink: "/productos",
   },
   {
     id: 3,
-    titulo: "Encargos para tus reuniones",
-    subtitulo: "Facturas, tortas y mesas dulces",
+    titulo: "Medialunas recién horneadas",
+    subtitulo: "Pasá por la mañana y llevate las primeras calentitas",
+    imagen:
+      "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=800&q=80",
+    botonTexto: "Conocenos",
+    botonLink: "/nosotros",
   },
 ];
 
@@ -56,31 +68,33 @@ function Home() {
   const destacados = productos.slice(0, 3);
 
   return (
-    <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
+    <div className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
       <Carousel slides={slides} />
 
-      <section className="mt-12">
+      <section className="mt-14">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="font-serif text-3xl font-bold">
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#3D1C06]">
               Nuestros productos
             </h2>
 
-            <p className="mt-1 text-sm opacity-85">
-              Descubrí las delicias de nuestra panadería.
+            <p className="mt-1 text-sm text-[#3D1C06]/80">
+              Descubrí las delicias artesanales de nuestra panadería.
             </p>
           </div>
 
           <Link
             to="/productos"
-            className="text-sm font-bold text-amber-600 hover:underline"
+            className="text-sm font-bold text-[#D96B27] hover:text-[#B05219] transition-colors"
           >
             Ver catálogo completo →
           </Link>
         </div>
 
         {cargando ? (
-          <p className="py-12 text-center">Cargando productos...</p>
+          <p className="py-12 text-center text-sm font-medium opacity-80">
+            Cargando productos...
+          </p>
         ) : error ? (
           <p className="py-12 text-center font-semibold text-red-600">
             {error}
@@ -106,7 +120,7 @@ function Home() {
           </p>
         )}
       </section>
-    </main>
+    </div>
   );
 }
 

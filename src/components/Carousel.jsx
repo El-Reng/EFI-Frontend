@@ -1,69 +1,96 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-function Carousel({ slides, intervalo = 5000 }) {
-  const [actual, setActual] = useState(0)
+function Carousel({ slides, intervalo = 6000 }) {
+  const [actual, setActual] = useState(0);
 
-  const siguiente = () => setActual((i) => (i + 1) % slides.length)
-  const anterior = () => setActual((i) => (i - 1 + slides.length) % slides.length)
+  const siguiente = () => setActual((i) => (i + 1) % slides.length);
+  const anterior = () => setActual((i) => (i - 1 + slides.length) % slides.length);
 
-  // avanza solo, y se reinicia el tiempo cuando se cambia a mano
+  // Avanza solo periódicamente
   useEffect(() => {
-    const id = setInterval(siguiente, intervalo)
-    return () => clearInterval(id)
-  }, [actual, intervalo, slides.length])
+    const id = setInterval(() => {
+      setActual((i) => (i + 1) % slides.length);
+    }, intervalo);
+    return () => clearInterval(id);
+  }, [intervalo, slides.length]);
 
   return (
-    <div className="relative overflow-hidden rounded-xl border-2 border-amber-300">
+    <div className="relative overflow-hidden rounded-3xl bg-[#F6C824] shadow-lg border border-amber-300/70">
       <div
-        className="flex transition-transform duration-500"
+        className="flex transition-transform duration-700 ease-out"
         style={{ transform: `translateX(-${actual * 100}%)` }}
       >
         {slides.map((s) => (
           <div
             key={s.id}
-            className="relative flex h-64 w-full shrink-0 items-center justify-center bg-amber-300 p-8 text-center text-amber-950 sm:h-80"
+            className="flex w-full shrink-0 flex-col md:flex-row items-center justify-between gap-6 px-8 py-10 sm:px-14 sm:py-12"
           >
-            {s.imagen && (
-              <>
-                <img src={s.imagen} alt={s.titulo} className="absolute inset-0 h-full w-full object-cover" />
-                <div className="absolute inset-0 bg-black/50" />
-              </>
-            )}
-            <div className={`relative ${s.imagen ? 'text-white' : ''}`}>
-              <h2 className="font-serif text-3xl font-bold sm:text-4xl">{s.titulo}</h2>
-              <p className="mt-2 text-lg">{s.subtitulo}</p>
+            {/* Texto y llamado a la acción */}
+            <div className="max-w-md space-y-4 text-center md:text-left z-10">
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#3D1C06] leading-tight tracking-tight">
+                {s.titulo}
+              </h2>
+              <p className="text-base sm:text-lg text-[#3D1C06]/85 font-medium">
+                {s.subtitulo}
+              </p>
+              <div className="pt-2">
+                <Link
+                  to={s.botonLink || "/productos"}
+                  className="inline-block rounded-full bg-[#D96B27] px-6 py-2.5 text-sm sm:text-base font-bold text-white shadow-md transition-all duration-200 hover:bg-[#B05219] hover:shadow-lg hover:-translate-y-0.5"
+                >
+                  {s.botonTexto || "Ver catálogo"}
+                </Link>
+              </div>
             </div>
+
+            {/* Imagen con recorte orgánico característico */}
+            {s.imagen && (
+              <div className="w-full md:w-1/2 flex justify-center md:justify-end z-10">
+                <img
+                  src={s.imagen}
+                  alt={s.titulo}
+                  className="h-56 sm:h-64 md:h-72 w-full max-w-md object-cover shadow-lg rounded-tl-[40px] rounded-br-[40px] rounded-tr-[100px] rounded-bl-[100px]"
+                />
+              </div>
+            )}
           </div>
         ))}
       </div>
 
+      {/* Flechas de navegación circular con sombra */}
       <button
         onClick={anterior}
         aria-label="Anterior"
-        className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/80 px-3 py-1 text-xl text-amber-950"
+        className="absolute left-3 top-1/2 -translate-y-1/2 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/95 text-xl font-bold text-[#3D1C06] shadow-md transition-all duration-200 hover:bg-white hover:scale-105 cursor-pointer"
       >
         ‹
       </button>
       <button
         onClick={siguiente}
         aria-label="Siguiente"
-        className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/80 px-3 py-1 text-xl text-amber-950"
+        className="absolute right-3 top-1/2 -translate-y-1/2 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/95 text-xl font-bold text-[#3D1C06] shadow-md transition-all duration-200 hover:bg-white hover:scale-105 cursor-pointer"
       >
         ›
       </button>
 
+      {/* Indicadores de paginación */}
       <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-2">
         {slides.map((s, i) => (
           <button
             key={s.id}
             onClick={() => setActual(i)}
             aria-label={`Ir a la diapositiva ${i + 1}`}
-            className={`h-3 w-3 rounded-full border-2 border-amber-600 ${i === actual ? 'bg-amber-500' : 'bg-white'}`}
+            className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+              i === actual
+                ? "w-6 bg-[#D96B27] shadow-xs"
+                : "w-2.5 bg-white/80 hover:bg-white shadow-xs"
+            }`}
           />
         ))}
       </div>
     </div>
-  )
+  );
 }
 
-export default Carousel
+export default Carousel;

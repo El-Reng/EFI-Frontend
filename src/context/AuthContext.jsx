@@ -7,15 +7,14 @@ const AuthContext = createContext(null);
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth debe ser usado dentro de un AuthProvider")
+    throw new Error("useAuth debe ser usado dentro de un AuthProvider");
   }
-  return context
+  return context;
 };
 
-
 export const AuthProvider = ({ children }) => {
-  // Inicializamos el estado del usuario en localStorage 
-  const [usuario, setUsuario] = useState(() => {
+  // Inicializamos el estado de la sesión en localStorage 
+  const [session, setSession] = useState(() => {
     if (typeof window !== "undefined") {
       try {
         const stored = localStorage.getItem("session");
@@ -31,14 +30,14 @@ export const AuthProvider = ({ children }) => {
 
   // Sincronización Automática con localStorage
   useEffect(() => {
-    if (usuario) {
-      localStorage.setItem("session", JSON.stringify(usuario));
+    if (session) {
+      localStorage.setItem("session", JSON.stringify(session));
     } else {
       localStorage.removeItem("session");
     }
-  }, [usuario]);
+  }, [session]);
 
-// Función para iniciar sesión conectando backend
+  // Función para iniciar sesión conectando backend
   const login = async (username, password) => {
     try {
       // Usamos la variable Vite de forma dinámica
@@ -63,20 +62,20 @@ export const AuthProvider = ({ children }) => {
         user: data.user,          
       });
 
-      return { success: true, isOwner: data.user.is_owner };
+      return { success: true, isOwner: data.user?.is_owner || false };
     } catch (error) {
       console.error("Error en el login:", error);
       return { success: false, error: error.message };
     }
   };
 
-  // cierre de sesión y exposicion de valores
+  // Cierre de sesión y exposición de valores
   const logout = useCallback(() => {
     setSession(null);
   }, []);
 
   const value = {
-    usuario: session?.user || null,
+    usuario: session?.user || session || null,
     token: session?.token || null,
     isOwner: session?.user?.is_owner || false,
     login,

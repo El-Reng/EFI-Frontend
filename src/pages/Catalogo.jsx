@@ -18,6 +18,7 @@ function Catalogo() {
 
   const categoriaActual = searchParams.get("categoria") || "Todos";
   const productosPorPagina = 6;
+  const esAdmin = location.pathname.startsWith("/admin");
 
   useEffect(() => {
     async function obtenerDatos() {
@@ -89,7 +90,7 @@ function Catalogo() {
   }
 
   function verDetalle(id) {
-    const rutaDetalle = location.pathname.startsWith("/admin")
+    const rutaDetalle = esAdmin
       ? `/admin/productos/${id}`
       : `/productos/${id}`;
 
@@ -98,7 +99,7 @@ function Catalogo() {
 
   if (cargando) {
     return (
-      <section className="mx-auto max-w-6xl px-4 py-12 text-center">
+      <section className="mx-auto max-w-6xl px-4 py-12 text-center text-sm font-medium opacity-80">
         <p>Cargando productos...</p>
       </section>
     );
@@ -113,28 +114,36 @@ function Catalogo() {
   }
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-12">
+    <section className="mx-auto max-w-6xl px-4 py-10">
       <div className="mb-8 text-center">
-        <h1 className="font-serif text-3xl font-bold">Gestión de productos</h1>
-        <p className="mt-2 opacity-80">
-          Consultá los productos registrados en la panadería.
+        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#3D1C06]">
+          {esAdmin ? "Gestión de productos" : "Nuestro Catálogo"}
+        </h1>
+        <p className="mt-2 text-sm text-[#3D1C06]/80">
+          {esAdmin
+            ? "Consultá y administrá los productos registrados."
+            : "Elegí tus favoritos recién horneados."}
         </p>
       </div>
 
-      <input
-        type="text"
-        value={busqueda}
-        onChange={cambiarBusqueda}
-        placeholder="Buscar productos..."
-        className="mb-6 w-full rounded-lg border-2 border-amber-300 bg-white px-4 py-3"
-      />
+      <div className="mb-6">
+        <input
+          type="text"
+          value={busqueda}
+          onChange={cambiarBusqueda}
+          placeholder="Buscar panes, facturas, tortas..."
+          className="w-full rounded-2xl border border-amber-200/90 bg-white px-5 py-3 text-sm text-[#3D1C06] placeholder:text-gray-400 shadow-sm focus:border-[#D96B27] focus:outline-none focus:ring-2 focus:ring-[#D96B27]/20 transition"
+        />
+      </div>
 
-      <div className="mb-8 flex flex-wrap gap-2">
+      <div className="mb-8 flex flex-wrap gap-2.5">
         <button
           type="button"
           onClick={() => cambiarCategoria("Todos")}
-          className={`rounded-lg border-2 border-amber-300 px-4 py-2 font-semibold ${
-            categoriaActual === "Todos" ? "bg-amber-500 text-white" : "bg-white"
+          className={`rounded-full px-5 py-2 text-sm font-semibold transition-all shadow-xs cursor-pointer ${
+            categoriaActual === "Todos"
+              ? "bg-[#D96B27] text-white shadow-sm font-bold"
+              : "bg-white text-[#3D1C06] border border-amber-200/80 hover:bg-amber-50"
           }`}
         >
           Todos
@@ -145,10 +154,10 @@ function Catalogo() {
             key={categoria.id}
             type="button"
             onClick={() => cambiarCategoria(String(categoria.id))}
-            className={`rounded-lg border-2 border-amber-300 px-4 py-2 font-semibold ${
+            className={`rounded-full px-5 py-2 text-sm font-semibold transition-all shadow-xs cursor-pointer ${
               categoriaActual === String(categoria.id)
-                ? "bg-amber-500 text-white"
-                : "bg-white"
+                ? "bg-[#D96B27] text-white shadow-sm font-bold"
+                : "bg-white text-[#3D1C06] border border-amber-200/80 hover:bg-amber-50"
             }`}
           >
             {categoria.name}
@@ -172,23 +181,23 @@ function Catalogo() {
           ))}
         </div>
       ) : (
-        <p className="py-12 text-center opacity-75">
+        <p className="py-12 text-center text-sm opacity-75">
           No se encontraron productos.
         </p>
       )}
 
       {totalPaginas > 1 && (
-        <div className="mt-8 flex items-center justify-center gap-4">
+        <div className="mt-10 flex items-center justify-center gap-4">
           <button
             type="button"
             onClick={() => setPaginaActual(paginaActual - 1)}
             disabled={paginaActual === 1}
-            className="rounded-lg border-2 border-amber-300 bg-white px-4 py-2 font-semibold disabled:opacity-40"
+            className="rounded-xl border border-amber-200 bg-white px-4 py-2 text-sm font-bold text-[#3D1C06] shadow-sm hover:bg-amber-50 disabled:opacity-40 transition cursor-pointer"
           >
-            Anterior
+            ← Anterior
           </button>
 
-          <span>
+          <span className="text-sm font-semibold text-[#3D1C06]">
             Página {paginaActual} de {totalPaginas}
           </span>
 
@@ -196,9 +205,9 @@ function Catalogo() {
             type="button"
             onClick={() => setPaginaActual(paginaActual + 1)}
             disabled={paginaActual === totalPaginas}
-            className="rounded-lg border-2 border-amber-300 bg-white px-4 py-2 font-semibold disabled:opacity-40"
+            className="rounded-xl border border-amber-200 bg-white px-4 py-2 text-sm font-bold text-[#3D1C06] shadow-sm hover:bg-amber-50 disabled:opacity-40 transition cursor-pointer"
           >
-            Siguiente
+            Siguiente →
           </button>
         </div>
       )}
